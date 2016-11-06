@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(const char* name, const char* description, Entity* parent = NULL)
+Entity::Entity(const char* name, const char* description, Entity* parent)
 {
 	this->name = name;
 	this->description = description;
@@ -14,3 +14,7 @@ Entity::~Entity()
 
 void Entity::Update()
 {}
+
+void Entity::Look() const
+{
+}

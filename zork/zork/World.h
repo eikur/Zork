@@ -2,8 +2,10 @@
 #define __World__
 
 #include <list>
-
 #include "Entity.h"
+#include "Room.h"
+#include "Character.h"
+
 
 using namespace std;
 

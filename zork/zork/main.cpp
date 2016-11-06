@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Input.h"
+#include "World.h"
 
 using namespace std;
 
@@ -11,8 +12,12 @@ int main(int argc, char* argv[])
 	string player_input;
 	vector<string> arguments;
 
+
+
 	cout << "Welcome to Zork";
 	cout << endl << "> ";
+
+	World game_world;
 
 	while (getline(cin, player_input))
 	{
@@ -20,10 +25,11 @@ int main(int argc, char* argv[])
 
 
 
-
+		/*
 		if (arguments.size() == 0)
 			cout << "Sorry, couldn't read you at all" << endl;
-		// cleaning
+		
+		*/
 		arguments.clear();
 		player_input.clear();
 		cout << endl << "> ";

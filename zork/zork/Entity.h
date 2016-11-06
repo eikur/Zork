@@ -14,9 +14,11 @@ public:
 	Entity* parent;
 	list<Entity*> childs;
 
-	Entity(const char* name, const char* description, Entity* parent);
+	Entity(const char* name, const char* description, Entity* parent = NULL);
+
 	virtual ~Entity();
 	virtual void Update();
+	virtual void Look() const;
 		
 };
 #endif // !__Entity__

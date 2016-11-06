@@ -5,9 +5,10 @@
 
 class Character : public Entity {
 public:
-	Character( const char* name, const char* description, Entity* parent);
+	Character(const char* name, const char* description, Entity* parent = NULL );
 	~Character();
 	void Upgrade();
+	void Look() const;
 };
 
 
