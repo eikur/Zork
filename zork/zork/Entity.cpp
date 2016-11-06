@@ -10,7 +10,6 @@ Entity::Entity(const char* name, const char* description, Entity* parent = NULL)
 
 Entity::~Entity()
 {
-	//consider removing childs list
 }
 
 void Entity::Update()
