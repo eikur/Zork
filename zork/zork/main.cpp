@@ -18,8 +18,12 @@ int main(int argc, char* argv[])
 	{
 		GetTokens(player_input, arguments);
 
+
+
+
 		if (arguments.size() == 0)
 			cout << "Sorry, couldn't read you at all" << endl;
+		// cleaning
 		arguments.clear();
 		player_input.clear();
 		cout << endl << "> ";
