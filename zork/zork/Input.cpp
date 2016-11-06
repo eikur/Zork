@@ -7,12 +7,16 @@ void GetTokens(const string& line, vector<string>& args)
 	int i = 0;
 
 	do {
+		while (line_c[i] == ' '  && i < length) { ++i; }
 		const int start = i;
-		while (line_c[i] != ' ' && i < length) {
-			++i;
-		}
-		args.push_back(string(line_c, start, i - start));
+		while (line_c[i] != ' ' && i < length)	{ ++i; }
+		if ( i > start)
+			args.push_back(string(line_c, start, i - start));
 		++i;
 	} while (i < length);
-	std::cout << args.capacity() << endl;
+	
+	for (vector<string>::const_iterator j = args.begin(); j < args.end(); j++)
+		cout << "'"<< *j << "'" << endl;
+	
+
 }
