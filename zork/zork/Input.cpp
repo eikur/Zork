@@ -14,10 +14,4 @@ void GetTokens(const string& line, vector<string>& args)
 			args.push_back(string(line_c, start, i - start));
 		++i;
 	} while (i < length);
-	
-/*	
-	for (vector<string>::const_iterator j = args.begin(); j < args.end(); j++)
-		cout << "'"<< *j << "'" << endl;
-*/	
-
 }

@@ -11,9 +11,7 @@ int main(int argc, char* argv[])
 {
 	string player_input;
 	vector<string> arguments;
-
-
-
+	
 	cout << "Welcome to Zork";
 	cout << endl << "> ";
 
@@ -22,14 +20,13 @@ int main(int argc, char* argv[])
 	while (getline(cin, player_input))
 	{
 		GetTokens(player_input, arguments);
-
-
-
-		/*
 		if (arguments.size() == 0)
-			cout << "Sorry, couldn't read you at all" << endl;
+			cout << "Please enter a command" << endl;
+		else if (arguments[0].compare("quit") == 0 )
+			break;
+		else
+			game_world.GetPlayerCommands(arguments);
 		
-		*/
 		arguments.clear();
 		player_input.clear();
 		cout << endl << "> ";
