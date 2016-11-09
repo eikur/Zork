@@ -10,4 +10,5 @@ Room::~Room()
 void Room::Look() const
 {
 	cout << name << endl;
+	cout << description << endl;
 }

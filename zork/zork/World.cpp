@@ -49,12 +49,6 @@ World::~World()
 	entities.clear();
 }
 
-void World::Update()
-{
-	for (list<Entity*>::const_iterator iter = entities.begin(); iter != entities.end(); iter++)
-		(*iter)->Update();
-}
-
 bool World::ParsePlayerCommands(const vector<string>& commands) const
 {
 	const int size = commands.size();

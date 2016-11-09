@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Entity.h"
 
+class Link;
+
 using namespace std;
 
 class Room : public Entity

@@ -19,7 +19,6 @@ class World
 public:
 	World();
 	~World();
-	void Update();
 	bool ParsePlayerCommands(const vector<string>& commands) const;
 	void GetPlayerCommands(const vector<string>& commands) const;
 

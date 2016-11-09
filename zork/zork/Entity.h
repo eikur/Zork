@@ -1,9 +1,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
 #include <list>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -13,13 +13,14 @@ public:
 	string name;
 	string description;
 	Entity* parent;
-	list<Entity*> childs;
+	list<Entity*> children;
 
 	Entity(const char* name, const char* description, Entity* parent = NULL);
-
 	virtual ~Entity();
-	virtual void Update();
+
 	virtual void Look() const;
+
+	void SetNewParent(Entity* new_parent);
 		
 };
 #endif // ENTITY_H
