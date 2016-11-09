@@ -1,5 +1,5 @@
-#ifndef __World__
-#define __World__
+#ifndef WORLD_H
+#define WORLD_H
 
 #include <string>
 #include <list>
@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "Room.h"
 #include "Character.h"
+#include "Link.h"
 
 
 using namespace std;
@@ -28,4 +29,4 @@ private:
 };
 
 
-#endif // !__World__
+#endif // WORLD_H

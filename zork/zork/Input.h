@@ -1,5 +1,5 @@
-#ifndef __Input__
-#define __Input__
+#ifndef INPUT_H
+#define INPUT_H
 
 #include <string>
 #include <vector>
@@ -9,4 +9,4 @@ using namespace std;
 
 void GetTokens(const string& line, vector<string>& args);
 
-#endif // !__Input__
+#endif // INPUT_H

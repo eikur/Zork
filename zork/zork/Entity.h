@@ -1,6 +1,7 @@
-#ifndef __Entity__
-#define __Entity__
+#ifndef ENTITY_H
+#define ENTITY_H
 
+#include <iostream>
 #include <list>
 #include <string>
 
@@ -21,5 +22,5 @@ public:
 	virtual void Look() const;
 		
 };
-#endif // !__Entity__
+#endif // ENTITY_H
 

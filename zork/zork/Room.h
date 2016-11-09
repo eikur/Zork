@@ -1,5 +1,5 @@
-#ifndef __Room__
-#define __Room__
+#ifndef ROOM_H
+#define ROOM_H
 
 #include <iostream>
 #include "Entity.h"
@@ -14,5 +14,5 @@ public:
 
 	void Look() const;
 };
-#endif // !__Room__
+#endif // ROOM_H
 

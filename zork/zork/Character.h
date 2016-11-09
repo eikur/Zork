@@ -1,5 +1,5 @@
-#ifndef __Character__
-#define __Character__
+#ifndef CHARACTER_H
+#define CHARACTER_H
 
 #include "Entity.h"
 
@@ -12,4 +12,4 @@ public:
 };
 
 
-#endif // !__Character__
+#endif // CHARACTER_H
