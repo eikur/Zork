@@ -16,5 +16,6 @@ public:
 
 	void Look() const;
 };
+
 #endif // ROOM_H
 

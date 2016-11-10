@@ -5,7 +5,10 @@ Entity::Entity(const char* name, const char* description, Entity* parent)
 	this->name = name;
 	this->description = description;
 	if (parent != NULL)
+	{
+		this->parent = parent;
 		parent->children.push_back(this);
+	}
 }
 
 Entity::~Entity()

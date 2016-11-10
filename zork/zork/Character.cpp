@@ -1,15 +1,15 @@
 #include "Character.h"
 
-Character::Character(const char* name, const char* description, Room* room) : Entity(name, description,(Room*) parent)
+Character::Character(const char* name, const char* description, Room* parent) : Entity(name, description,(Entity*) parent)
 {}
 
 Character::~Character()
 {}
 
-void Character::Look(const vector<string>& args) const {}
-void Character::Go(const vector<string>& args) const {
-
+void Character::Look(const vector<string>& args) const {
+	cout << "There is a " << name << description << endl;
 }
+void Character::Go(const vector<string>& args) const {}
 void Character::Take(const vector<string>& args) const {}
 void Character::Inventory(const vector<string>& args) const {}
 void Character::Attack(const vector<string>& args) const {}

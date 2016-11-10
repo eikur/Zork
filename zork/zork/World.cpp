@@ -5,7 +5,7 @@ World::World()
 {
 	Room* house = new Room("House", "You are inside a wooden house. It looks rustic and worn down, but it is somehow appealing. There are signs that somebody lives here");
 	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof.");
-	Room* field = new Room("Crossing field", "You are in the middle of a field. You see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
+	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. You see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
 	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate. You hear a water stream in the distance");
 	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east. You can cross the river but there is no way of getting to the other side without swimming.");
@@ -20,6 +20,8 @@ World::World()
 	Link* forest1_to_forest2_2 = new Link(forest1, forest2, "east", "west");
 	Link* forest2_to_river = new Link(forest2, river, "east", "west");
 	Link* river_to_cave = new Link(river, cave, "east", "west");
+
+	player = new Player("The new Indiana", "Before you stands the best adventurer ever", field);
 
 	//more stuff here :)
 
@@ -40,6 +42,8 @@ World::World()
 	this->entities.push_back(forest1_to_forest2_2);
 	this->entities.push_back(forest2_to_river);
 	this->entities.push_back(river_to_cave);
+
+	this->entities.push_back(player);
 }
 
 World::~World()
@@ -57,7 +61,7 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 	{
 		case 1:
 			if (commands[0].compare("look") == 0 || commands[0].compare("l") == 0) {
-				cout << "look command" << endl;	
+				player->Look(commands);
 			}
 			else if (commands[0].compare("inventory") == 0 || commands[0].compare("i") == 0) {
 				cout << "inventory command" << endl;
@@ -71,10 +75,10 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 		break;
 		case 2:
 			if (commands[0].compare("look") == 0 || commands[0].compare("l") == 0) {
-				cout << "look at " << commands[1] << " command"  << endl;
+				player->Look(commands);
 			}
 			else if (commands[0].compare("go") == 0 || commands[0].compare("g") == 0) {
-				cout << "go " << commands[1] << " direction command" << endl;
+				player->Go(commands);
 			}
 			else if (commands[0].compare("take") == 0 || commands[0].compare("t") == 0) {
 				cout << "take " << commands[1] << " command" << endl;

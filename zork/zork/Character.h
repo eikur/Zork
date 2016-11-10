@@ -4,9 +4,11 @@
 #include "Entity.h"
 #include "Room.h"
 
+using namespace std;
+
 class Character : public Entity {
 public:
-	Character(const char* name, const char* description, Room* room );
+	Character(const char* name, const char* description, Room* parent );
 	~Character();
 
 	virtual void Look(const vector<string>& args) const;

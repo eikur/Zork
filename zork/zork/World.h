@@ -9,7 +9,7 @@
 #include "Room.h"
 #include "Character.h"
 #include "Link.h"
-
+#include "Player.h"
 
 using namespace std;
 
@@ -24,6 +24,7 @@ public:
 
 private:
 	list<Entity*> entities;
+	Player* player;
 
 };
 
