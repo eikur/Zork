@@ -9,4 +9,6 @@ using namespace std;
 
 void GetTokens(const string& line, vector<string>& args);
 
+bool AreEqual(const string& token, const char* compare_to);
+
 #endif // INPUT_H

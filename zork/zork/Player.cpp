@@ -1,19 +1,21 @@
 #include "Player.h"
 
-Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){}
+Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){
+	type = PLAYER;
+}
 
 Player::~Player(){}
 
 void Player::Look(const vector<string>& args) const {
 	if (args.size()> 1)
 	{ 
-		if (args[1].compare("me") == 0)
+		if (AreEqual(args[1],"me"))
 		{
 			cout << "** " << name << " **" << endl;
 			cout << description << endl;
 		}
 		else
-			cout << "look at something command to be implemented" << endl;
+			cout << "I understood up to the look part" << endl;
 	}
 	else
 		parent->Look();

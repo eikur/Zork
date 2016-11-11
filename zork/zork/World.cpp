@@ -55,61 +55,19 @@ World::~World()
 
 bool World::ParsePlayerCommands(const vector<string>& commands) const
 {
-	const int size = commands.size();
 	bool result = true;
-	switch (size)
-	{
-		case 1:
-			if (commands[0].compare("look") == 0 || commands[0].compare("l") == 0) {
-				player->Look(commands);
-			}
-			else if (commands[0].compare("inventory") == 0 || commands[0].compare("i") == 0) {
-				cout << "inventory command" << endl;
-			}
-			else if (commands[0].compare("status") == 0 || commands[0].compare("s") == 0){
-				cout << "status command" << endl;
-			}
-			else {
-				result = false;
-			}
-		break;
-		case 2:
-			if (commands[0].compare("look") == 0 || commands[0].compare("l") == 0) {
-				player->Look(commands);
-			}
-			else if (commands[0].compare("go") == 0 || commands[0].compare("g") == 0) {
-				player->Go(commands);
-			}
-			else if (commands[0].compare("take") == 0 || commands[0].compare("t") == 0) {
-				cout << "take " << commands[1] << " command" << endl;
-			}
-			else if (commands[0].compare("drop") == 0 || commands[0].compare("d") == 0) {
-				cout << "drop " << commands[1] << " command" << endl;
-			}
-			else if (commands[0].compare("use") == 0 || commands[0].compare("u") == 0) {
-				cout << "use " << commands[1] << " command" << endl;
-			}
-			else if (commands[0].compare("attack") == 0 || commands[0].compare("a") == 0) {
-				cout << "attack " << commands[1] << " command" << endl;
-			}
-			else {
-				result = false;
-			}
-		break;
-	case 4:
-			if (commands[0].compare("attack") == 0 || commands[0].compare("a") == 0) {
-				cout << "attack " << commands[1] << " " << commands[2] << " " << commands[3] << " command" << endl;
-			}
-			else if (commands[0].compare("use") == 0 || commands[0].compare("u") == 0) {
-				cout << "use " << commands[1] << " " << commands[2] << " " << commands[3] << " command" << endl;
-			}
-			else {
-				result = false;
-			}
-		break;
-	default: result = false;
-		break;
+	
+	if (AreEqual(commands[0],"look") || AreEqual(commands[0], "l") ) {
+		player->Look(commands);
 	}
+	else if (AreEqual(commands[0], "go") || AreEqual(commands[0], "g")) {
+		player->Go(commands);
+	}
+	else
+	{
+		result = false;
+	}
+
 	return result;
 }
 

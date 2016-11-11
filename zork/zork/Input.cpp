@@ -15,3 +15,10 @@ void GetTokens(const string& line, vector<string>& args)
 		++i;
 	} while (i < length);
 }
+
+bool AreEqual(const string& token, const char* compare_to) {
+	if (token.compare(compare_to) == 0)
+		return true;
+	else
+		return false;
+}

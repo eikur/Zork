@@ -1,7 +1,9 @@
 #include "Character.h"
 
 Character::Character(const char* name, const char* description, Room* parent) : Entity(name, description,(Entity*) parent)
-{}
+{
+	type = CHARACTER;
+}
 
 Character::~Character()
 {}

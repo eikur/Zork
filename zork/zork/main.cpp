@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 		GetTokens(player_input, arguments);
 		if (arguments.size() == 0)
 			cout << "Please enter a command" << endl;
-		else if (arguments[0].compare("quit") == 0 )
+		else if (AreEqual(arguments[0],"quit")) 
 			break;
 		else
 			game_world.GetPlayerCommands(arguments);

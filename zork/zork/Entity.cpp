@@ -1,12 +1,9 @@
 #include "Entity.h"
 
-Entity::Entity(const char* name, const char* description, Entity* parent)
+Entity::Entity(const char* name, const char* description, Entity* parent) : name(name), description(description), parent(parent)
 {
-	this->name = name;
-	this->description = description;
 	if (parent != NULL)
 	{
-		this->parent = parent;
 		parent->children.push_back(this);
 	}
 }
