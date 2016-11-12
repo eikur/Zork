@@ -116,6 +116,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Link.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Note.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="World.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Link.h" />
+    <ClInclude Include="Note.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="World.h" />

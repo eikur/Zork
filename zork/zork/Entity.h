@@ -17,7 +17,8 @@ enum EntityType
 	LINK,
 	CHARACTER,
 	PLAYER,
-	ITEM
+	ITEM,
+	NOTE
 };
 
 

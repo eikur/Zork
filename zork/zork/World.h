@@ -11,6 +11,7 @@
 #include "Link.h"
 #include "Player.h"
 #include "Item.h"
+#include "Note.h"
 
 using namespace std;
 
@@ -27,11 +28,18 @@ private:
 	list<Entity*> entities;
 	Player* player;
 	Character* npc1;
-	Item* apple;
-	Item* totem;
-	Item* chest; 
-	Item* treasure;
+	
+	Item* trunk;
+	Item* bag;
+	Item* torch;
 
+	Item* mailbox;
+	Note* letter;	
+	Item* peanuts; 
+
+	Item* chest;
+	Note* note;	
+	Item* sword;
 };
 
 

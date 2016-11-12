@@ -42,14 +42,26 @@ World::World()
 	this->entities.push_back(river_to_cave);
 	
 	//items
-	apple = new Item("apple", "Here you have a healthy fruit", field, true, false, false);
-	totem = new Item("totem", "This looks like a 7th century totem built totally in stone", field, false, false, false);
-	chest = new Item("chest", "This is a sturdy chest. It may contain something", field, false, true, false);
-	treasure = new Item("treasure", "This is a marvelous price", chest, true, false, false);
-	this->entities.push_back(apple);
-	this->entities.push_back(totem);
+	trunk = new Item("trunk", "This is a sturdy trunk, but it has seen better days", attic, false, true, true);
+	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
+	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);
+
+	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", house, false, true, true);
+	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, false, false, "Welcome To Zork!\nI hope you didn't bust the mailbox \
+open to get this letter, or somebody will be mad at you!\nEnjoy the game!");
+	peanuts = new Item("peanuts", "This is a bag of peanuts. Too bad I'm not hungry!", house, true, false, false);
+
+	chest = new Item("chest", "This is the mistery chest that you were looking for", cave, false, true, true);
+	note = new Note("note", "This is a handmade note", chest, true, false, false, "To you, fellow adventurer:\n");
+	sword = new Item("sword", "This is a rusty sword, but it can come in handy", chest, true, false, false);
+
+	this->entities.push_back(trunk);
+	this->entities.push_back(bag);
+	this->entities.push_back(torch);
+	
 	this->entities.push_back(chest);
-	this->entities.push_back(treasure);
+	this->entities.push_back(note);
+
 
 	// characters
 	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
@@ -84,6 +96,12 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 	}
 	else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
 		player->Inventory(commands);
+	}
+	else if (AreEqual(commands[0], "open") || AreEqual(commands[0], "o")) {
+		player->Open(commands);
+	}
+	else if (AreEqual(commands[0], "read") || AreEqual(commands[0], "r")) {
+		player->Read(commands);
 	}
 	else
 	{

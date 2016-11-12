@@ -3,6 +3,7 @@
 #include "Link.h"
 #include "Item.h"
 #include "Entity.h"
+#include "Note.h"
 
 Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){
 	type = PLAYER;
@@ -30,7 +31,7 @@ void Player::Look(const vector<string>& args) const {
 				if ((*it)->type == ITEM)
 				{
 					Item* item = (Item*)(*it);
-					if (item->HasStorage() && !item->IsLocked())
+					if (item->HasStorage() && !item->IsLocked() &&  item->children.size() > 0)
 					{
 						for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
 						{
@@ -38,6 +39,25 @@ void Player::Look(const vector<string>& args) const {
 								(*it2)->Look();
 								return;
 							}
+						}
+					}
+				}
+			}
+			for (list<Entity*>::const_iterator it = this->children.begin(); it != this->children.end(); ++it)
+			{
+				if (AreEqual((*it)->name, args[1]))
+				{
+					(*it)->Look();
+					return;
+				}
+				Item* item = (Item*)(*it);
+				if (item->HasStorage() && item->children.size() >0 )
+				{
+					for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+					{
+						if (AreEqual((*it2)->name, args[1])) {
+							(*it2)->Look();
+							return;
 						}
 					}
 				}
@@ -89,13 +109,8 @@ void Player::Take(const vector<string>& args)
 			cout << "I can't see any item by that name" << endl;
 			return;
 		}
-		else
-		{
-			item->SetNewParent(this);
-			cout << "Taken" << endl;
-		}
 	}
-	else if(item->IsTakeable() == true)
+	if(item->IsTakeable() == true)
 	{
 			item->SetNewParent(this);
 			cout << "Taken" << endl;
@@ -163,4 +178,35 @@ void Player::Inventory(const vector<string>&) const
 	{
 		cout << (*it)->name << endl;
 	}
+}
+
+void Player::Open(const vector<string>& args) {
+	if (args.size() == 1)
+	{
+		cout << "I don't know what to open!" << endl;
+		return;
+	}
+	Item* item = (Item*)GetRoom()->Find(args[1], ITEM);
+	if (item == NULL)
+	{
+		cout << "I can't see any item by that name" << endl;
+		return;
+	}
+	item->Unlock();
+	cout << "Opened" << endl;
+}
+void Player::Read(const vector<string>& args)
+{
+	if (args.size() == 1)
+	{
+		cout << "I don't know what to read!" << endl;
+		return;
+	}
+	Note* n = (Note*) this->Find(args[1], NOTE);
+	if (n == NULL)
+	{
+		cout << "You don't own anything by that name that can be read" << endl;
+		return;
+	}
+	n->Read();
 }

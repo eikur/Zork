@@ -16,7 +16,7 @@ public:
 	bool IsTakeable() const;
 	bool HasStorage() const;
 	bool IsLocked() const;
-
+	void Unlock();
 
 private:
 	bool takeable;

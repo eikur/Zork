@@ -32,7 +32,7 @@ void Room::Look() const
 		if ((*it)->type == ITEM)
 		{
 			Item* item = (Item*)(*it);
-			cout << "There is an item here: " << item->name << endl;
+			cout << "There is an item: " << item->name << endl;
 			if (item->HasStorage() && !item->IsLocked())
 			{
 				if (item->children.size() > 0)

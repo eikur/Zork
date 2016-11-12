@@ -5,6 +5,7 @@
 class Room;
 class Link;
 
+
 using namespace std;
 
 class Player : public Character
@@ -18,6 +19,8 @@ public:
 	void Take(const vector<string>& args);
 	void Drop(const vector<string>& args);
 	void Inventory(const vector<string>& args) const;
+	void Open(const vector<string>& args);
+	void Read(const vector<string>& args);
 
 };
 
