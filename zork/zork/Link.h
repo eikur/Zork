@@ -3,7 +3,8 @@
 
 #include "Entity.h"
 #include "Room.h"
-//class Room;
+
+using namespace std;
 
 class Link : public Entity
 {
@@ -15,5 +16,7 @@ public:
 	const string origin_to_destination;
 	const string destination_to_origin;
 
+	string GetDirectionFrom(const Room* starting_point) const;
 };
+
 #endif 

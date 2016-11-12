@@ -5,8 +5,7 @@
 #include "Entity.h"
 #include "Character.h"
 #include "Item.h"
-class Link;
-
+#include "Link.h"
 
 using namespace std;
 
@@ -17,7 +16,9 @@ public:
 	~Room();
 
 	void Look() const;
-};
 
+	Link* GetLinkTo(const string& direction) const;
+
+};
 #endif // ROOM_H
 

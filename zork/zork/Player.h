@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include "Room.h"
 
 using namespace std;
 

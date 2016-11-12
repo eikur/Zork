@@ -11,7 +11,7 @@ Item::~Item()
 
 void Item::Look() const
 {
-	cout << "Item: " << name << endl;
+	cout << "** " << name << " **" << endl;
 	cout << description << endl;
 	//list all the objects cointaining them
 }

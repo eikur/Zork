@@ -23,7 +23,7 @@ World::World()
 
 	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
 	player = new Player("The new Nathan Drake", "You look endearing", field);
-	item1 = new Item("Potion", "This looks like a health potion", field);
+	item1 = new Item("potion", "This looks like a health potion", field);
 
 	//more stuff here :)
 

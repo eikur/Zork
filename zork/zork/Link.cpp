@@ -6,3 +6,12 @@ Link::Link(Room* origin, Room* destination, const char* ori_to_dest, const char*
 	destination->children.push_back(this);
 }
 Link::~Link() {}
+
+string Link::GetDirectionFrom(const Room* starting_point) const
+{
+	if (starting_point == parent)
+		return origin_to_destination;
+	if (starting_point == destination)
+		return destination_to_origin;
+	return origin_to_destination;
+}

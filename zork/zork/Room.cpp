@@ -32,5 +32,18 @@ void Room::Look() const
 			
 		}
 	}
+}
 
+Link* Room::GetLinkTo(const string& direction) const
+{
+	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if( (*it)->type == LINK)
+		{ 
+			Link* link = (Link*)(*it);
+			if (AreEqual(link->GetDirectionFrom(this), direction))
+				return link;
+		}
+	}
+	return NULL;
 }
