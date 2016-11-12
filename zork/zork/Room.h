@@ -3,9 +3,7 @@
 
 #include <iostream>
 #include "Entity.h"
-#include "Character.h"
-#include "Item.h"
-#include "Link.h"
+class Link;
 
 using namespace std;
 

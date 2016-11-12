@@ -1,4 +1,8 @@
 #include "Room.h"
+#include "Link.h"
+#include "Character.h"
+#include "Item.h"
+
 
 Room::Room(const char* name, const char* description) : Entity(name, description, NULL)
 {
