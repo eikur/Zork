@@ -33,6 +33,15 @@ void Room::Look() const
 		{
 			Item* item = (Item*)(*it);
 			cout << "There is an item here: " << item->name << endl;
+			if (item->HasStorage() && !item->IsLocked())
+			{
+				if (item->children.size() > 0)
+				{
+					cout << " " << item->name << " contents:" << endl;
+					for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+						cout << "  *" << (*it2)->name << endl;
+				}
+			}
 			
 		}
 	}

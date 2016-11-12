@@ -27,8 +27,10 @@ private:
 	list<Entity*> entities;
 	Player* player;
 	Character* npc1;
-	Item* item1;
-	Item* item2;
+	Item* apple;
+	Item* totem;
+	Item* chest; 
+	Item* treasure;
 
 };
 

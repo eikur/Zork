@@ -3,6 +3,7 @@
 
 World::World()
 {
+	//rooms
 	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and here are signs that somebody lives here, but it looks appealing. There is a ladder that goes up, and the door is to the east");
 	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof.");
 	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. You see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
@@ -11,6 +12,15 @@ World::World()
 	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east. You can cross the river but there is no way of getting to the other side without swimming.");
 	Room* cave = new Room("Cave", "It's pitch black inside");
 
+	this->entities.push_back(house);
+	this->entities.push_back(attic);
+	this->entities.push_back(field);
+	this->entities.push_back(forest1);
+	this->entities.push_back(forest2);
+	this->entities.push_back(river);
+	this->entities.push_back(cave);
+
+	// links between rooms
 	Link* house_to_attic = new Link(house, attic, "up", "down");
 	Link* house_to_field = new Link(house, field, "east", "west");
 	Link* field_to_forest1_1 = new Link(field, forest1, "south", "south");
@@ -21,21 +31,6 @@ World::World()
 	Link* forest2_to_river = new Link(forest2, river, "north", "west");
 	Link* river_to_cave = new Link(river, cave, "east", "west");
 
-	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
-	player = new Player("The new Nathan Drake", "You look endearing", field);
-	item1 = new Item("potion", "This looks like a health potion", field, true);
-	item2 = new Item("totem", "This looks like a 7th century totem built totally in stone", field, false);
-
-	//more stuff here :)
-
-	this->entities.push_back(house);
-	this->entities.push_back(attic);
-	this->entities.push_back(field);
-	this->entities.push_back(forest1);
-	this->entities.push_back(forest2);
-	this->entities.push_back(river);
-	this->entities.push_back(cave);
-
 	this->entities.push_back(house_to_attic);
 	this->entities.push_back(house_to_field);
 	this->entities.push_back(field_to_forest1_1);
@@ -45,10 +40,22 @@ World::World()
 	this->entities.push_back(forest1_to_forest2_2);
 	this->entities.push_back(forest2_to_river);
 	this->entities.push_back(river_to_cave);
+	
+	//items
+	apple = new Item("apple", "Here you have a healthy fruit", field, true, false, false);
+	totem = new Item("totem", "This looks like a 7th century totem built totally in stone", field, false, false, false);
+	chest = new Item("chest", "This is a sturdy chest. It may contain something", field, false, true, false);
+	treasure = new Item("treasure", "This is a marvelous price", chest, true, false, false);
+	this->entities.push_back(apple);
+	this->entities.push_back(totem);
+	this->entities.push_back(chest);
+	this->entities.push_back(treasure);
 
+	// characters
+	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
+	player = new Player("The new Nathan Drake", "You look endearing", field);
+	
 	this->entities.push_back(npc1);
-	this->entities.push_back(item1);
-	this->entities.push_back(item2);
 	this->entities.push_back(player);
 }
 
