@@ -23,7 +23,8 @@ World::World()
 
 	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
 	player = new Player("The new Nathan Drake", "You look endearing", field);
-	item1 = new Item("potion", "This looks like a health potion", field);
+	item1 = new Item("potion", "This looks like a health potion", field, true);
+	item2 = new Item("totem", "This looks like a 7th century totem built totally in stone", field, false);
 
 	//more stuff here :)
 
@@ -47,6 +48,7 @@ World::World()
 
 	this->entities.push_back(npc1);
 	this->entities.push_back(item1);
+	this->entities.push_back(item2);
 	this->entities.push_back(player);
 }
 

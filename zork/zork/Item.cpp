@@ -1,6 +1,6 @@
 #include "Item.h"
 
-Item::Item(const char* name, const char* description, Room* parent) : Entity(name, description, parent)
+Item::Item(const char* name, const char* description, Room* parent, bool takeable) : Entity(name, description, parent), takeable(takeable)
 {
 	type = ITEM;
 }
@@ -16,3 +16,7 @@ void Item::Look() const
 	//list all the objects cointaining them
 }
 
+bool Item::IsTakeable() const
+{
+	return takeable;
+}

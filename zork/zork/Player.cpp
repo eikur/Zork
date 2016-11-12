@@ -59,14 +59,19 @@ void Player::Take(const vector<string>& args)
 		cout << "I don't know what to take" << endl;
 		return;
 	}
-	Entity* item =  GetRoom()->Find(args[1],ITEM);
+	Item* item =  (Item*)GetRoom()->Find(args[1],ITEM);
 	if (item == NULL)
 	{
-		cout << "Sorry, I can't take that!" << endl;
+		cout << "I can't see any item by that name" << endl;
 		return;
 	}
-	item->SetNewParent(this);
-	cout << "Taken" << endl;
+	if (item->IsTakeable() == true)
+	{
+		item->SetNewParent(this);
+		cout << "Taken" << endl;
+	}
+	else
+		cout << "This is an item that I cannot take with me" << endl; 
 }
 
 void Player::Drop(const vector<string>& args)
@@ -76,7 +81,7 @@ void Player::Drop(const vector<string>& args)
 		cout << "I don't know what to drop" << endl;
 		return;
 	}
-	Entity* item = this->Find(args[1], ITEM);
+	Item* item = (Item*) this->Find(args[1], ITEM);
 	if (item == NULL)
 	{
 		cout << "I can't drop something I don't own!" << endl;
