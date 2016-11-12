@@ -15,6 +15,9 @@ public:
 
 	void Look(const vector<string>& args) const;
 	void Go(const vector<string>& args);
+	void Take(const vector<string>& args);
+	void Drop(const vector<string>& args);
+	void Inventory(const vector<string>& args) const;
 
 };
 

@@ -67,6 +67,15 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 	else if (AreEqual(commands[0], "go") || AreEqual(commands[0], "g")) {
 		player->Go(commands);
 	}
+	else if (AreEqual(commands[0], "take") || AreEqual(commands[0], "t")) {
+		player->Take(commands);
+	}
+	else if (AreEqual(commands[0], "drop") || AreEqual(commands[0], "d")) {
+		player->Drop(commands);
+	}
+	else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
+		player->Inventory(commands);
+	}
 	else
 	{
 		result = false;
