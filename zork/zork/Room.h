@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include "Entity.h"
-
+#include "Character.h"
+#include "Item.h"
 class Link;
+
 
 using namespace std;
 

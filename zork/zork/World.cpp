@@ -3,7 +3,7 @@
 
 World::World()
 {
-	Room* house = new Room("House", "You are inside a wooden house. It looks rustic and worn down, but it is somehow appealing. There are signs that somebody lives here");
+	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and here are signs that somebody lives here, but it looks appealing. There is a ladder that goes up.");
 	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof.");
 	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. You see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
@@ -21,7 +21,9 @@ World::World()
 	Link* forest2_to_river = new Link(forest2, river, "east", "west");
 	Link* river_to_cave = new Link(river, cave, "east", "west");
 
-	player = new Player("The new Indiana", "Before you stands the best adventurer ever", field);
+	npc1 = new Character("hermit", "He might be like 70 years old, and what a beard! It reminds you of Kill Bill's kung fu master", field);
+	player = new Player("The new Nathan Drake", "You look endearing", field);
+	item1 = new Item("Potion", "This looks like a health potion", field);
 
 	//more stuff here :)
 
@@ -43,6 +45,8 @@ World::World()
 	this->entities.push_back(forest2_to_river);
 	this->entities.push_back(river_to_cave);
 
+	this->entities.push_back(npc1);
+	this->entities.push_back(item1);
 	this->entities.push_back(player);
 }
 

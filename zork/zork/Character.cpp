@@ -9,7 +9,6 @@ Character::~Character()
 {}
 
 void Character::Look(const vector<string>& args) const {
-	cout << "There is a " << name << description << endl;
 }
 void Character::Go(const vector<string>& args) const {}
 void Character::Take(const vector<string>& args) const {}

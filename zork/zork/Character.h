@@ -2,7 +2,7 @@
 #define CHARACTER_H
 
 #include "Entity.h"
-#include "Room.h"
+class Room;
 
 using namespace std;
 

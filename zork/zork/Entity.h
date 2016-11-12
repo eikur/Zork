@@ -30,6 +30,8 @@ public:
 	virtual void Look() const;
 
 	void SetNewParent(Entity* new_parent);
+
+	Entity* Find(const string& name, EntityType type);
 	
 	string name;
 	string description;

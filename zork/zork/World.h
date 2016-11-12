@@ -10,6 +10,7 @@
 #include "Character.h"
 #include "Link.h"
 #include "Player.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ public:
 private:
 	list<Entity*> entities;
 	Player* player;
+	Character* npc1;
+	Item* item1;
 
 };
 

@@ -9,7 +9,7 @@ Player::~Player(){}
 void Player::Look(const vector<string>& args) const {
 	if (args.size()> 1)
 	{ 
-		if (AreEqual(args[1],"me"))
+		if (AreEqual(args[1],"me") || AreEqual(args[1],"player" ) )
 		{
 			cout << "** " << name << " **" << endl;
 			cout << description << endl;

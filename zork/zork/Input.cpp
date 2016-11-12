@@ -22,3 +22,10 @@ bool AreEqual(const string& token, const char* compare_to) {
 	else
 		return false;
 }
+
+bool AreEqual(const string& token, const string& compare_to) {
+	if (token.compare(compare_to) == 0)
+		return true;
+	else
+		return false;
+}
