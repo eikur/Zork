@@ -17,6 +17,7 @@ public:
 	const string destination_to_origin;
 
 	string GetDirectionFrom(const Room* starting_point) const;
+	Room* GetDestinationFrom(const Room* starting_point);
 };
 
 #endif 

@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Room.h"
+#include "Link.h"
 
 Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){
 	type = PLAYER;
@@ -32,10 +34,19 @@ void Player::Look(const vector<string>& args) const {
 		parent->Look();
 }
 
-void Player::Go(const vector<string>& args) const {
+void Player::Go(const vector<string>& args) {
 	if (args.size() == 1)
 	{
 		cout << "I don't know where to go" << endl;
 		return;
 	}
+	Link* link = GetRoom()->GetLinkTo(args[1]);
+	if (link == NULL)
+	{
+		cout << "There is nowhere to go in that direction" << endl;
+		return;
+	}
+	SetNewParent(link->GetDestinationFrom((Room*)parent));
+	parent->Look();
+
 }

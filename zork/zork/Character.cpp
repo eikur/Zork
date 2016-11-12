@@ -18,6 +18,8 @@ void Character::Use(const vector<string>& args) const {}
 void Character::Drop(const vector<string>& args) const {}
 void Character::Status(const vector<string>& args) const {}
 
-
+Room* Character::GetRoom()  {
+	return (Room*)parent;
+}
 
 

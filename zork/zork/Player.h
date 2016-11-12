@@ -3,6 +3,7 @@
 
 #include "Character.h"
 class Room;
+class Link;
 
 using namespace std;
 
@@ -13,7 +14,7 @@ public:
 	~Player();
 
 	void Look(const vector<string>& args) const;
-	void Go(const vector<string>& args) const;
+	void Go(const vector<string>& args);
 
 };
 

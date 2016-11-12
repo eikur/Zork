@@ -12,7 +12,14 @@ string Link::GetDirectionFrom(const Room* starting_point) const
 {
 	if (starting_point == parent)
 		return origin_to_destination;
-	if (starting_point == destination)
+	else
 		return destination_to_origin;
-	return origin_to_destination;
+}
+
+Room* Link::GetDestinationFrom(const Room* starting_point) 
+{
+	if (starting_point == parent)
+		return destination;
+	else
+		return (Room*) parent;
 }
