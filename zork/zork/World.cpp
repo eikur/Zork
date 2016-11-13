@@ -4,12 +4,12 @@
 World::World()
 {
 	//rooms
-	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and here are signs that somebody lives here, but it looks appealing. There is a ladder that goes up, and the door is to the east");
+	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and there are signs that somebody lives here, but it looks appealing. \nThere is a ladder that goes up, and the door is to the east");
 	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof.");
-	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. You see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
+	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. \nYou see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
-	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate. You hear a water stream in the distance");
-	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east. You can cross the river but there is no way of getting to the other side without swimming.");
+	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.\nYou hear a water stream in the distance");
+	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east.\nYou can cross the river but there is no way of getting to the other side without swimming.");
 	Room* cave = new Room("Cave", "It's pitch black inside. If only you had something to light it up...", false);
 
 	this->entities.push_back(house);
@@ -67,7 +67,8 @@ If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou
 
 
 	// characters
-	npc1 = new Character("hermit", "He might be like 80 years old, and what a beard! It reminds you of Kill Bill's kung fu master", forest1);
+	npc1 = new Character("hermit", "He might be like 80 years old, and what a beard! It reminds you of Kill Bill's kung fu master", forest1,
+		"Nowadays there are lots of youngsters like you coming this way for fame. Poor children, there is nothing here but nature! Don't waste your time!");
 	player = new Player("The new Nathan Drake", "You look endearing", field);
 	
 	this->entities.push_back(npc1);
@@ -98,7 +99,7 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 		player->Drop(commands);
 	}
 	else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
-		player->Inventory(commands);
+		player->Inventory();
 	}
 	else if (AreEqual(commands[0], "open") || AreEqual(commands[0], "o")) {
 		player->Open(commands);
@@ -108,6 +109,12 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 	}
 	else if (AreEqual(commands[0], "use") || AreEqual(commands[0], "u")) {
 		player->Use(commands);
+	}
+	else if (AreEqual(commands[0], "talk") || AreEqual(commands[0], "k")) {
+		player->Talk(commands);
+	}
+	else if (AreEqual(commands[0], "duel") || AreEqual(commands[0], "x")) {
+		player->Duel(commands);
 	}
 	else
 	{

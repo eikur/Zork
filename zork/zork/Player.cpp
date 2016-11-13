@@ -21,8 +21,7 @@ void Player::Look(const vector<string>& args) const {
 		}
 		else
 		{
-			Room* room = (Room*)parent;
-			if (room->IsIlluminated())
+			if (CanSee())
 			{
 				for (list<Entity*>::const_iterator it = parent->children.begin(); it != parent->children.end(); ++it)
 				{
@@ -66,7 +65,7 @@ void Player::Look(const vector<string>& args) const {
 					}
 				}
 			}
-			cout << "I can't find it" << endl;
+			cout << "I can't find That" << endl;
 
 		}
 	}
@@ -93,8 +92,7 @@ void Player::Go(const vector<string>& args) {
 
 void Player::Take(const vector<string>& args)
 {
-	Room* room = (Room*)parent;
-	if (!room->IsIlluminated())
+	if (!CanSee())
 	{
 		cout << "It's too dark in here!" << endl;
 		return;
@@ -133,8 +131,7 @@ void Player::Take(const vector<string>& args)
 
 void Player::Drop(const vector<string>& args)
 {
-	Room* room = (Room*)parent;
-	if (!room->IsIlluminated())
+	if (!CanSee())
 	{
 		cout << "It's too dark in here!" << endl;
 		return;
@@ -165,7 +162,7 @@ void Player::Drop(const vector<string>& args)
 			destination = (Item*)GetRoom()->Find(args[3], ITEM);
 			if (destination == NULL)
 			{
-				cout << "I can't find item " << args[3] << " in the inventory nor in your surroundings" << endl;
+				cout << "Are you serious?" << endl;
 				return;
 			}
 		}
@@ -185,25 +182,24 @@ void Player::Drop(const vector<string>& args)
 	}
 }
 
-void Player::Inventory(const vector<string>&) const
+void Player::Inventory() const
 {
 	if (children.size() == 0)
 	{
 		cout << "I don't own anything" << endl;
 		return;
 	}
-	cout << "You own:" << endl;
+	cout << "I own:" << endl;
 	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 	{
-		cout << (*it)->name << endl;
+		cout << " *" << (*it)->name << endl;
 	}
 }
 
 void Player::Open(const vector<string>& args) {
-	Room* room = (Room*)parent;
-	if (!room->IsIlluminated())
+	if (!CanSee())
 	{
-		cout << "I can't see a thing" << endl;
+		cout << "It's too dark in here!" << endl;
 		return;
 	}
 	if (args.size() == 1)
@@ -219,6 +215,7 @@ void Player::Open(const vector<string>& args) {
 	}
 	item->Unlock();
 	cout << "Opened" << endl;
+	item->Look();
 }
 
 void Player::Read(const vector<string>& args)
@@ -274,4 +271,49 @@ void Player::Use(const vector<string>& args) {
 	{
 		cout << "I must be out of my mind..." << endl;
 	}
+}
+
+void Player::Talk(const vector<string>& args) const {
+	if (!CanSee())
+	{
+		cout << "It's too dark in here!" << endl;
+		return;
+	}
+	if (args.size() == 1)
+	{
+		cout << "I need somebody to talk to!" << endl;
+		return;
+	}
+	Character* interlocutor = (Character*)GetRoom()->Find(args[1], CHARACTER);
+	if (interlocutor == NULL)
+	{
+		cout << "I don't know who that is" << endl;
+		return;
+	}
+	interlocutor->Talk();
+}
+
+void Player::Duel(const vector<string>& args) {
+	if (args.size() == 1)
+	{
+		cout << "I'd love to duel somebody, but I need to know who!" << endl;
+		return;
+	}
+	Character* duelist = (Character*)GetRoom()->Find(args[1], CHARACTER);
+	if (duelist == NULL)
+	{
+		cout << "Yay! I'm gonna duel with somebody who isn't even here!" << endl;
+		return;
+	}
+	if (this->Find("sword", ITEM) == NULL)
+	{
+		cout << "You can't insult duel anybody without a proper sword" << endl;
+		return;
+	}
+	// DUEL!
+
+}
+
+bool Player::CanSee() const{
+	return GetRoom()->IsIlluminated();
 }

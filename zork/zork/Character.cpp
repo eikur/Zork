@@ -5,21 +5,22 @@ Character::Character(const char* name, const char* description, Room* parent) : 
 	type = CHARACTER;
 }
 
-Character::~Character()
-{}
-
-void Character::Look(const vector<string>& args) const {
+Character::Character(const char* name, const char* description, Room* parent, const char* talk_line) : Entity(name, description, (Entity*)parent), talk_line(talk_line)
+{
+	type = CHARACTER;
 }
-void Character::Go(const vector<string>& args) const {}
-void Character::Take(const vector<string>& args) const {}
-void Character::Inventory(const vector<string>& args) const {}
-void Character::Attack(const vector<string>& args) const {}
-void Character::Use(const vector<string>& args) const {}
-void Character::Drop(const vector<string>& args) const {}
-void Character::Status(const vector<string>& args) const {}
 
-Room* Character::GetRoom()  {
+Character::~Character(){}
+
+void Character::Talk() const {
+	if (!AreEqual(talk_line, ""))
+	{
+		cout << name << " says: " << endl;
+		cout << " " << talk_line << endl;
+	}
+}
+
+Room* Character::GetRoom() const {
 	return (Room*)parent;
 }
-
 

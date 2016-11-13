@@ -17,12 +17,15 @@ public:
 	void Look(const vector<string>& args) const;
 	void Go(const vector<string>& args);
 	void Take(const vector<string>& args);
-	void Drop(const vector<string>& args);
-	void Inventory(const vector<string>& args) const;
+	void Drop(const vector<string>& args); 
+	void Inventory() const;
 	void Open(const vector<string>& args);
 	void Read(const vector<string>& args);
 	void Use(const vector<string>& args);
+	void Talk(const vector<string>& args) const;
+	void Duel(const vector<string>& args);
 
+	bool CanSee() const;
 };
 
 #endif

@@ -9,19 +9,14 @@ using namespace std;
 class Character : public Entity {
 public:
 	Character(const char* name, const char* description, Room* parent );
+	Character(const char* name, const char* description, Room* parent, const char* talk_line);
 	~Character();
 
-	virtual void Look(const vector<string>& args) const;
-	virtual void Go(const vector<string>& args) const;
-	virtual void Take(const vector<string>& args) const;
-	virtual void Inventory(const vector<string>& args) const;	// necesito pasar args?
-	virtual void Attack(const vector<string>& args) const;
-	virtual void Use(const vector<string>& args) const;
-	virtual void Drop(const vector<string>& args) const;
-	virtual void Status(const vector<string>& args) const;	// necesito pasar args?
+	virtual void Talk() const;
+	Room* GetRoom() const;
 
-	Room* GetRoom();
-	
+private: 
+	string talk_line = "";
 };
 
 

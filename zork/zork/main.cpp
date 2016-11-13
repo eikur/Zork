@@ -12,7 +12,12 @@ int main(int argc, char* argv[])
 	string player_input;
 	vector<string> arguments;
 	
-	cout << "Welcome to Zork";
+	cout << "**********************************************************************" << endl;
+	cout << "***                         Welcome to Zork                        ***" << endl;
+	cout << "**********************************************************************" << endl;
+	cout << "You are a wannabee adventurer / treasure hunter with a sharp tongue" << endl;
+	cout << "This is your first real-world approach to start shaping your legend!" << endl;
+	cout << "Have luck my friend!" << endl;
 	cout << endl << "> ";
 
 	World game_world;
