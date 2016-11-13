@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main()
 {
 	string player_input;
 	vector<string> arguments;

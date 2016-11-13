@@ -3,6 +3,7 @@
 Character::Character(const char* name, const char* description, Room* parent) : Entity(name, description,(Entity*) parent)
 {
 	type = CHARACTER;
+	beaten = false;
 }
 
 Character::Character(const char* name, const char* description, Room* parent, const char* talk_line) : Entity(name, description, (Entity*)parent), talk_line(talk_line)
@@ -22,6 +23,14 @@ void Character::Talk() const {
 
 bool Character::IsDueling() const {
 	return in_a_duel;
+}
+void Character::GiveDuelPrize(Entity* destination)
+{
+	Entity* prize = this->Find("prize", ITEM);
+	prize->name = "gem";
+	prize->SetNewParent(destination);
+	cout << "You obtained: " << prize->name << endl;
+	prize->Look();
 }
 Room* Character::GetRoom() const {
 	return (Room*)parent;

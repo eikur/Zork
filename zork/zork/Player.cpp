@@ -268,11 +268,19 @@ void Player::Use(const vector<string>& args) {
 			cave->SetIllumination(true);			
 			parent->Look();
 		}
+		return;
 	}
-	else
+	if (AreEqual(target->name, "sword"))
 	{
-		cout << "I must be out of my mind..." << endl;
+		cout << "I am no skilled swordsman, but maybe I can win a duel with my wit..." << endl;
+		return;
 	}
+	if (AreEqual(target->name, "peanuts"))
+	{
+		cout << "I am not really hungry. Maybe later!" << endl;
+		return;
+	}
+	cout << "I understood up to the use part" << endl;
 }
 
 void Player::Talk(const vector<string>& args) const {
@@ -312,6 +320,11 @@ void Player::StartDuel(const vector<string>& args) {
 		cout << "You can't insult duel anybody without a proper sword" << endl;
 		return;
 	}
+	if (duelist->beaten == true)
+	{
+		cout << "I don't want to duel again someone I've already beaten" << endl;
+		return;
+	}
 	duel = new Duel(this, duelist);
 }
 
@@ -326,15 +339,7 @@ void Player::ExitDuel() {
 }
 
 bool Player::DuelAction(const vector<string>& args) const {
-	bool result = true;
-	if (AreEqual(args[0], "surrender")) {
-		duel->Surrender();
-	}
-	else
-	{
-		result = false;
-	}
-	return result;
+	return duel->ChooseOption(args);
 }
 
 bool Player::CanSee() const {

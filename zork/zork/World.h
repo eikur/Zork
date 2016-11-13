@@ -27,7 +27,7 @@ public:
 private:
 	list<Entity*> entities;
 	Player* player;
-	Character* npc1;
+	Character* hermit;
 	
 	Item* trunk;
 	Item* bag;
@@ -40,6 +40,7 @@ private:
 	Item* chest;
 	Note* note;	
 	Item* sword;
+	Item* gem;
 };
 
 

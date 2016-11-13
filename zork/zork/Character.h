@@ -16,9 +16,11 @@ public:
 	Room* GetRoom() const;
 
 	bool IsDueling() const;
+	void GiveDuelPrize(Entity* destination);
 
 public:
 	bool in_a_duel;
+	bool beaten;
 
 private: 
 	string talk_line = "";

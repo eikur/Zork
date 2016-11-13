@@ -1,6 +1,5 @@
 #include "World.h"
 
-
 World::World()
 {
 	//rooms
@@ -25,9 +24,9 @@ World::World()
 	Link* house_to_field = new Link(house, field, "east", "west");
 	Link* field_to_forest1_1 = new Link(field, forest1, "south", "south");
 	Link* field_to_forest1_2 = new Link(field, forest1, "east", "west");
-	Link* field_to_forest2 = new Link(field, forest2, "north", "east");
+	Link* field_to_forest2 = new Link(field, forest2, "north", "west");
 	Link* forest1_to_forest2_1 = new Link(forest1, forest2, "north", "south");
-	Link* forest1_to_forest2_2 = new Link(forest1, forest2, "east", "west");
+	Link* forest1_to_forest2_2 = new Link(forest1, forest2, "east", "east");
 	Link* forest2_to_river = new Link(forest2, river, "north", "west");
 	Link* river_to_cave = new Link(river, cave, "east", "west");
 
@@ -40,11 +39,16 @@ World::World()
 	this->entities.push_back(forest1_to_forest2_2);
 	this->entities.push_back(forest2_to_river);
 	this->entities.push_back(river_to_cave);
-	
+
+	// npc
+	hermit = new Character("hermit", "He might be like 80 years old, and what a beard! It reminds you of Kill Bill's kung fu master", forest1,
+		"Nowadays there are lots of youngsters like you coming this way for fame. Poor children, there is nothing here but nature! Don't waste your time!");
+	this->entities.push_back(hermit);
+
 	//items & notes
 	trunk = new Item("trunk", "This is a sturdy trunk, but it has seen better days", attic, false, true, true);
 	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
-	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);	// change location later
+	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);
 
 	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", house, false, true, true);
 	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork!\nI hope you didn't bust the mailbox \
@@ -56,7 +60,10 @@ open to get this letter, or somebody will be mad at you!\nEnjoy the game!");
 lands looking for a treasure, and they gone back with naught\nThere were also a few ones that were fool enough to duel with me, and they all failed.\n\
 I am the only rightful heir to the treasure that was found here, and I will only hand it to someone that beats me to a duel. Not that it can happen anytime soon.\n\n\
 If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou already know who I am, right?");
-	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", forest1, true, false, false);
+	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);
+
+	gem = new Item("prize", "This is the gem you came to this lost zone for! You can see how bright it is, you can make tons of money with it!", hermit, true, false, false);
+
 
 	this->entities.push_back(trunk);
 	this->entities.push_back(bag);
@@ -65,13 +72,9 @@ If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou
 	this->entities.push_back(chest);
 	this->entities.push_back(note);
 
-
-	// characters
-	npc1 = new Character("hermit", "He might be like 80 years old, and what a beard! It reminds you of Kill Bill's kung fu master", forest1,
-		"Nowadays there are lots of youngsters like you coming this way for fame. Poor children, there is nothing here but nature! Don't waste your time!");
+	//player
 	player = new Player("The new Nathan Drake", "You look endearing", field);
-	
-	this->entities.push_back(npc1);
+
 	this->entities.push_back(player);
 }
 

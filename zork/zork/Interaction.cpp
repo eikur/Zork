@@ -9,3 +9,7 @@ Interaction::~Interaction(){}
 void Interaction::Print() {
 	cout << code << " - " << description << endl;
 }
+
+void Interaction::Say() {
+	cout << description << endl << endl;
+}

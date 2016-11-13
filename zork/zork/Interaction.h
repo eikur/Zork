@@ -22,5 +22,6 @@ public:
 	~Interaction();
 
 	void Print();
+	void Say();
 };
 #endif // !INTERACTION_H
