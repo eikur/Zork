@@ -2,8 +2,10 @@
 #define PLAYER_H
 
 #include "Character.h"
+
 class Room;
 class Link;
+class Duel;
 
 
 using namespace std;
@@ -23,9 +25,19 @@ public:
 	void Read(const vector<string>& args);
 	void Use(const vector<string>& args);
 	void Talk(const vector<string>& args) const;
-	void Duel(const vector<string>& args);
+
 
 	bool CanSee() const;
+
+	void StartDuel(const vector<string>& args);
+	void EnterDuel();
+	void ExitDuel();
+	bool DuelAction(const vector<string>& args) const;
+
+
+private: 
+	Duel* duel;
+
 };
 
 #endif

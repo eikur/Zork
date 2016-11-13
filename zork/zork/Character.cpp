@@ -20,6 +20,9 @@ void Character::Talk() const {
 	}
 }
 
+bool Character::IsDueling() const {
+	return in_a_duel;
+}
 Room* Character::GetRoom() const {
 	return (Room*)parent;
 }

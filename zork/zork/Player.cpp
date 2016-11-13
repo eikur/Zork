@@ -4,9 +4,11 @@
 #include "Item.h"
 #include "Entity.h"
 #include "Note.h"
+#include "Duel.h"
 
 Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){
 	type = PLAYER;
+	in_a_duel = false;
 }
 
 Player::~Player(){}
@@ -293,7 +295,7 @@ void Player::Talk(const vector<string>& args) const {
 	interlocutor->Talk();
 }
 
-void Player::Duel(const vector<string>& args) {
+void Player::StartDuel(const vector<string>& args) {
 	if (args.size() == 1)
 	{
 		cout << "I'd love to duel somebody, but I need to know who!" << endl;
@@ -310,10 +312,31 @@ void Player::Duel(const vector<string>& args) {
 		cout << "You can't insult duel anybody without a proper sword" << endl;
 		return;
 	}
-	// DUEL!
-
+	duel = new Duel(this, duelist);
 }
 
-bool Player::CanSee() const{
+void Player::EnterDuel() {
+	cout << "**  ENTERING DUEL MODE  **" << endl;
+	in_a_duel = true;
+}
+
+void Player::ExitDuel() {
+	in_a_duel = false;
+	cout << "**  EXITING DUEL MODE  **" << endl;
+}
+
+bool Player::DuelAction(const vector<string>& args) const {
+	bool result = true;
+	if (AreEqual(args[0], "surrender")) {
+		duel->Surrender();
+	}
+	else
+	{
+		result = false;
+	}
+	return result;
+}
+
+bool Player::CanSee() const {
 	return GetRoom()->IsIlluminated();
 }

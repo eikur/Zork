@@ -44,7 +44,7 @@ World::World()
 	//items & notes
 	trunk = new Item("trunk", "This is a sturdy trunk, but it has seen better days", attic, false, true, true);
 	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
-	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", field, true, false, false);	// change location later
+	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);	// change location later
 
 	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", house, false, true, true);
 	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork!\nI hope you didn't bust the mailbox \
@@ -56,7 +56,7 @@ open to get this letter, or somebody will be mad at you!\nEnjoy the game!");
 lands looking for a treasure, and they gone back with naught\nThere were also a few ones that were fool enough to duel with me, and they all failed.\n\
 I am the only rightful heir to the treasure that was found here, and I will only hand it to someone that beats me to a duel. Not that it can happen anytime soon.\n\n\
 If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou already know who I am, right?");
-	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);
+	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", forest1, true, false, false);
 
 	this->entities.push_back(trunk);
 	this->entities.push_back(bag);
@@ -86,39 +86,46 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 {
 	bool result = true;
 	
-	if (AreEqual(commands[0],"look") || AreEqual(commands[0], "l") ) {
-		player->Look(commands);
-	}
-	else if (AreEqual(commands[0], "go") || AreEqual(commands[0], "g")) {
-		player->Go(commands);
-	}
-	else if (AreEqual(commands[0], "take") || AreEqual(commands[0], "t")) {
-		player->Take(commands);
-	}
-	else if (AreEqual(commands[0], "drop") || AreEqual(commands[0], "d")) {
-		player->Drop(commands);
-	}
-	else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
-		player->Inventory();
-	}
-	else if (AreEqual(commands[0], "open") || AreEqual(commands[0], "o")) {
-		player->Open(commands);
-	}
-	else if (AreEqual(commands[0], "read") || AreEqual(commands[0], "r")) {
-		player->Read(commands);
-	}
-	else if (AreEqual(commands[0], "use") || AreEqual(commands[0], "u")) {
-		player->Use(commands);
-	}
-	else if (AreEqual(commands[0], "talk") || AreEqual(commands[0], "k")) {
-		player->Talk(commands);
-	}
-	else if (AreEqual(commands[0], "duel") || AreEqual(commands[0], "x")) {
-		player->Duel(commands);
+	if (!player->IsDueling())
+	{
+		if (AreEqual(commands[0], "look") || AreEqual(commands[0], "l")) {
+			player->Look(commands);
+		}
+		else if (AreEqual(commands[0], "go") || AreEqual(commands[0], "g")) {
+			player->Go(commands);
+		}
+		else if (AreEqual(commands[0], "take") || AreEqual(commands[0], "t")) {
+			player->Take(commands);
+		}
+		else if (AreEqual(commands[0], "drop") || AreEqual(commands[0], "d")) {
+			player->Drop(commands);
+		}
+		else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
+			player->Inventory();
+		}
+		else if (AreEqual(commands[0], "open") || AreEqual(commands[0], "o")) {
+			player->Open(commands);
+		}
+		else if (AreEqual(commands[0], "read") || AreEqual(commands[0], "r")) {
+			player->Read(commands);
+		}
+		else if (AreEqual(commands[0], "use") || AreEqual(commands[0], "u")) {
+			player->Use(commands);
+		}
+		else if (AreEqual(commands[0], "talk") || AreEqual(commands[0], "k")) {
+			player->Talk(commands);
+		}
+		else if (AreEqual(commands[0], "duel") || AreEqual(commands[0], "x")) {
+			player->StartDuel(commands);
+		}
+		else
+		{
+			result = false;
+		}
 	}
 	else
-	{
-		result = false;
+	{ 
+		result = player->DuelAction(commands);
 	}
 
 	return result;

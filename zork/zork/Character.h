@@ -15,6 +15,11 @@ public:
 	virtual void Talk() const;
 	Room* GetRoom() const;
 
+	bool IsDueling() const;
+
+public:
+	bool in_a_duel;
+
 private: 
 	string talk_line = "";
 };
