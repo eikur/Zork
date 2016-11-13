@@ -94,29 +94,31 @@ void Player::Take(const vector<string>& args)
 		cout << "I don't know what to take" << endl;
 		return;
 	}
-	Item* item = (Item*)GetRoom()->Find(args[1], ITEM);
-	if (item == NULL)
+	Entity* target = GetRoom()->Find(args[1], ITEM);
+	if (target == NULL)
+		target = GetRoom()->Find(args[1], NOTE);
+	if (target == NULL)
 	{
 		cout << "I can't see any item by that name" << endl;
 		return;
 	}
-	
-	if (item->parent->type == ITEM )
+
+	if (target->parent->type == ITEM)
 	{
-		Item* container = (Item*)item->parent;
+		Item* container = (Item*)target->parent;
 		if (container->IsLocked())
 		{
 			cout << "I can't see any item by that name" << endl;
 			return;
 		}
 	}
-	if(item->IsTakeable() == true)
+	if (target->IsTakeable() == true)
 	{
-			item->SetNewParent(this);
-			cout << "Taken" << endl;
+		target->SetNewParent(this);
+		cout << "Taken" << endl;
 	}
 	else
-		cout << "This is an item that I cannot take with me" << endl; 
+		cout << "This is an item that I cannot take with me" << endl;
 }
 
 void Player::Drop(const vector<string>& args)
@@ -126,16 +128,17 @@ void Player::Drop(const vector<string>& args)
 		cout << "I don't know what to drop" << endl;
 		return;
 	}
-	
-	Item* item = (Item*) this->Find(args[1], ITEM);
-	if (item == NULL)
+	Entity* drop = this->Find(args[1], ITEM);
+	if (drop == NULL)
+		drop = this->Find(args[1], NOTE);
+	if (drop == NULL)
 	{
 		cout << "I can't drop something I don't own!" << endl;
 		return;
 	}
 	if (args.size() == 2)
 	{
-		item->SetNewParent(this->parent);
+		drop->SetNewParent(this->parent);
 		cout << "Dropped" << endl;
 	}
 	else if (args.size() == 4)
@@ -143,7 +146,7 @@ void Player::Drop(const vector<string>& args)
 		Item* destination = (Item*) this->Find(args[3], ITEM);
 		if (destination == NULL)
 		{
-			destination = (Item*) GetRoom()->Find(args[3], ITEM);
+			destination = (Item*)GetRoom()->Find(args[3], ITEM);
 			if (destination == NULL)
 			{
 				cout << "I can't find item " << args[3] << " in the inventory nor in your surroundings" << endl;
@@ -152,12 +155,12 @@ void Player::Drop(const vector<string>& args)
 		}
 		if (destination->HasStorage() && !destination->IsLocked())
 		{
-			item->SetNewParent(destination);
-			cout << "Dropped " << item->name << " into " << destination->name << endl;
+			drop->SetNewParent(destination);
+			cout << "Dropped " << drop->name << " into " << destination->name << endl;
 		}
 		else
 		{
-			cout << "You can't drop " << item->name << " into " << destination->name << endl;
+			cout << "You can't drop " << drop->name << " into " << destination->name << endl;
 		}
 	}
 	else

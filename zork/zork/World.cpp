@@ -41,18 +41,18 @@ World::World()
 	this->entities.push_back(forest2_to_river);
 	this->entities.push_back(river_to_cave);
 	
-	//items
+	//items & notes
 	trunk = new Item("trunk", "This is a sturdy trunk, but it has seen better days", attic, false, true, true);
 	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
 	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);
 
 	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", house, false, true, true);
-	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, false, false, "Welcome To Zork!\nI hope you didn't bust the mailbox \
+	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork!\nI hope you didn't bust the mailbox \
 open to get this letter, or somebody will be mad at you!\nEnjoy the game!");
 	peanuts = new Item("peanuts", "This is a bag of peanuts. Too bad I'm not hungry!", house, true, false, false);
 
 	chest = new Item("chest", "This is the mistery chest that you were looking for", cave, false, true, true);
-	note = new Note("note", "This is a handmade note", chest, true, false, false, "To you, fellow adventurer:\n");
+	note = new Note("note", "This is a handmade note", chest, true, "To you, fellow adventurer:\n");
 	sword = new Item("sword", "This is a rusty sword, but it can come in handy", chest, true, false, false);
 
 	this->entities.push_back(trunk);

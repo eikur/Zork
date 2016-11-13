@@ -29,6 +29,7 @@ public:
 	virtual ~Entity();
 
 	virtual void Look() const;
+	virtual bool IsTakeable() const;
 
 	void SetNewParent(Entity* new_parent);
 

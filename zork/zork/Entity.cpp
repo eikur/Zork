@@ -19,6 +19,11 @@ void Entity::Look() const
 	cout << description << endl;
 }
 
+bool Entity::IsTakeable() const
+{
+	return false;
+}
+
 void Entity::SetNewParent(Entity* new_parent)
 {
 	if (parent != NULL)

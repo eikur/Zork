@@ -5,7 +5,7 @@
 
 class Note : public Item {
 public:
-	Note(const char* name, const char* description, Entity* parent, bool takeable, bool storage, bool locked, string text);
+	Note(const char* name, const char* description, Entity* parent, bool takeable, string text);
 	~Note();
 
 	void Read() const;
