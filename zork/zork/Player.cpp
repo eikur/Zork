@@ -21,23 +21,27 @@ void Player::Look(const vector<string>& args) const {
 		}
 		else
 		{
-			for (list<Entity*>::const_iterator it = parent->children.begin(); it != parent->children.end(); ++it)
+			Room* room = (Room*)parent;
+			if (room->IsIlluminated())
 			{
-				if (AreEqual((*it)->name, args[1]))
+				for (list<Entity*>::const_iterator it = parent->children.begin(); it != parent->children.end(); ++it)
 				{
-					(*it)->Look();
-					return;
-				}
-				if ((*it)->type == ITEM)
-				{
-					Item* item = (Item*)(*it);
-					if (item->HasStorage() && !item->IsLocked() &&  item->children.size() > 0)
+					if (AreEqual((*it)->name, args[1]))
 					{
-						for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+						(*it)->Look();
+						return;
+					}
+					if ((*it)->type == ITEM)
+					{
+						Item* item = (Item*)(*it);
+						if (item->HasStorage() && !item->IsLocked() && item->children.size() > 0)
 						{
-							if (AreEqual((*it2)->name, args[1])) {
-								(*it2)->Look();
-								return;
+							for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+							{
+								if (AreEqual((*it2)->name, args[1])) {
+									(*it2)->Look();
+									return;
+								}
 							}
 						}
 					}
@@ -62,7 +66,7 @@ void Player::Look(const vector<string>& args) const {
 					}
 				}
 			}
-			cout << "I can't find what you are looking for" << endl;
+			cout << "I can't find it" << endl;
 
 		}
 	}
@@ -89,6 +93,12 @@ void Player::Go(const vector<string>& args) {
 
 void Player::Take(const vector<string>& args)
 {
+	Room* room = (Room*)parent;
+	if (!room->IsIlluminated())
+	{
+		cout << "It's too dark in here!" << endl;
+		return;
+	}
 	if (args.size() == 1)
 	{
 		cout << "I don't know what to take" << endl;
@@ -123,6 +133,12 @@ void Player::Take(const vector<string>& args)
 
 void Player::Drop(const vector<string>& args)
 {
+	Room* room = (Room*)parent;
+	if (!room->IsIlluminated())
+	{
+		cout << "It's too dark in here!" << endl;
+		return;
+	}
 	if (args.size() == 1)
 	{
 		cout << "I don't know what to drop" << endl;
@@ -160,12 +176,12 @@ void Player::Drop(const vector<string>& args)
 		}
 		else
 		{
-			cout << "You can't drop " << drop->name << " into " << destination->name << endl;
+			cout << "I can't drop " << drop->name << " into " << destination->name << endl;
 		}
 	}
 	else
 	{
-		cout << "I understood you up to the drop part" << endl;
+		cout << "I understood up to the drop part" << endl;
 	}
 }
 
@@ -173,7 +189,7 @@ void Player::Inventory(const vector<string>&) const
 {
 	if (children.size() == 0)
 	{
-		cout << "You don't own anything" << endl;
+		cout << "I don't own anything" << endl;
 		return;
 	}
 	cout << "You own:" << endl;
@@ -184,6 +200,12 @@ void Player::Inventory(const vector<string>&) const
 }
 
 void Player::Open(const vector<string>& args) {
+	Room* room = (Room*)parent;
+	if (!room->IsIlluminated())
+	{
+		cout << "I can't see a thing" << endl;
+		return;
+	}
 	if (args.size() == 1)
 	{
 		cout << "I don't know what to open!" << endl;
@@ -198,6 +220,7 @@ void Player::Open(const vector<string>& args) {
 	item->Unlock();
 	cout << "Opened" << endl;
 }
+
 void Player::Read(const vector<string>& args)
 {
 	if (args.size() == 1)
@@ -208,8 +231,47 @@ void Player::Read(const vector<string>& args)
 	Note* n = (Note*) this->Find(args[1], NOTE);
 	if (n == NULL)
 	{
-		cout << "You don't own anything by that name that can be read" << endl;
+		cout << "I don't own anything by that name that can be read" << endl;
 		return;
 	}
 	n->Read();
+}
+
+void Player::Use(const vector<string>& args) {
+	if (args.size() == 1)
+	{
+		cout << "I don't know what I should use" << endl;
+		return;
+	}
+	Entity* target = this->Find(args[1], ITEM);
+	if (target == NULL)
+	{
+		target = this->Find(args[1], NOTE);
+		if (target == NULL)
+		{
+			cout << "I can't use something I don't find in my inventory" << endl;
+			return;
+		}
+		else
+		{
+			cout << "Maybe I should not try to use it, but to read it" << endl;
+			return;
+		}
+	}
+	if (AreEqual(target->name, "torch"))
+	{
+		cout << "Litting the torch!" << endl;
+		if (AreEqual(parent->name,"Cave"))
+		{
+			Room* cave = (Room*)parent;
+			cout << "You lit the cave!" << endl << endl;
+			cave->description = "This looks like a millenial cave, not known to man, waiting here to be discovered. However, you see some dried footsteps in the mud. Did you arrive too late..?";
+			cave->SetIllumination(true);			
+			parent->Look();
+		}
+	}
+	else
+	{
+		cout << "I must be out of my mind..." << endl;
+	}
 }

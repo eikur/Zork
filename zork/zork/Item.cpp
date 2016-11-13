@@ -13,20 +13,19 @@ void Item::Look() const
 {
 	cout << "** " << name << " **" << endl;
 	cout << description << endl;
-	//list all the objects cointaining them
 	if (IsLocked())
 	{
-		cout << "It is locked" << endl;
+		cout << " It's closed!" << endl;
 	}
 	else if (HasStorage())
 	{
 		if (children.size() == 0)
-			cout << "It's empty" << endl;
+			cout << " It's empty!" << endl;
 		else
 		{
-			cout << "It contains:" << endl;
+			cout << " It contains:" << endl;
 			for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
-				cout << (*it)->name << endl;
+				cout << "  *" <<  (*it)->name << endl;
 		}
 	}
 }

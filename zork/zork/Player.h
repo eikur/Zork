@@ -21,6 +21,7 @@ public:
 	void Inventory(const vector<string>& args) const;
 	void Open(const vector<string>& args);
 	void Read(const vector<string>& args);
+	void Use(const vector<string>& args);
 
 };
 

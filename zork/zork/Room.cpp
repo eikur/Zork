@@ -4,7 +4,12 @@
 #include "Item.h"
 
 
-Room::Room(const char* name, const char* description) : Entity(name, description, NULL)
+Room::Room(const char* name, const char* description) : Entity(name, description, NULL), illuminated(true)
+{
+	type = ROOM;
+}
+
+Room::Room(const char* name, const char* description, bool illuminated) : Entity(name, description, NULL), illuminated(illuminated)
 {
 	type = ROOM;
 }
@@ -18,31 +23,34 @@ void Room::Look() const
 	cout << "** " << name << " **" << endl;
 	cout << description << endl;
 
-	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	if (IsIlluminated())
 	{
-		if ((*it)->type == CHARACTER)
+		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 		{
-			Character* ch = (Character*)(*it);
-			cout << "There is someone here: " << ch->name << endl;
-		}
-	}
-
-	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
-	{
-		if ((*it)->type == ITEM)
-		{
-			Item* item = (Item*)(*it);
-			cout << "There is an item: " << item->name << endl;
-			if (item->HasStorage() && !item->IsLocked())
+			if ((*it)->type == CHARACTER)
 			{
-				if (item->children.size() > 0)
-				{
-					cout << " " << item->name << " contents:" << endl;
-					for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
-						cout << "  *" << (*it2)->name << endl;
-				}
+				Character* ch = (Character*)(*it);
+				cout << "There is someone here: " << ch->name << endl;
 			}
-			
+		}
+
+		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+		{
+			if ((*it)->type == ITEM)
+			{
+				Item* item = (Item*)(*it);
+				cout << "There is an item: " << item->name << endl;
+				if (item->HasStorage() && !item->IsLocked())
+				{
+					if (item->children.size() > 0)
+					{
+						cout << " " << item->name << " contents:" << endl;
+						for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+							cout << "  *" << (*it2)->name << endl;
+					}
+				}
+
+			}
 		}
 	}
 }
@@ -59,4 +67,14 @@ Link* Room::GetLinkTo(const string& direction) const
 		}
 	}
 	return NULL;
+}
+
+bool Room::IsIlluminated() const
+{
+	return illuminated;
+}
+
+void Room::SetIllumination(bool new_illumination)
+{
+	illuminated = new_illumination;
 }
