@@ -215,9 +215,14 @@ void Player::Open(const vector<string>& args) {
 		cout << "I can't see any item by that name" << endl;
 		return;
 	}
-	item->Unlock();
-	cout << "Opened" << endl;
-	item->Look();
+	if (item->IsLocked())
+	{
+		item->Unlock();
+		cout << "Opened" << endl;
+		item->Look();
+	}
+	else
+		cout << "It's not as if it's closed..." << endl;
 }
 
 void Player::Read(const vector<string>& args)

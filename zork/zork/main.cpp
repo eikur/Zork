@@ -17,6 +17,7 @@ int main()
 	cout << "**********************************************************************" << endl;
 	cout << "You are a wannabee adventurer / treasure hunter with a sharp tongue" << endl;
 	cout << "This is your first real-world approach to start shaping your legend!" << endl;
+	cout << "Stories talk about a rare gem that might be found in the surroundings." << endl;
 	cout << "Have luck my friend!" << endl;
 	cout << endl << "> ";
 

@@ -50,9 +50,10 @@ World::World()
 	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
 	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);
 
-	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", house, false, true, true);
-	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork!\nI hope you didn't bust the mailbox \
-open to get this letter, or somebody will be mad at you!\nEnjoy the game!");
+	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", field, false, true, true);
+	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork! Good job finding this letter!\n\
+You can find the game's wiki here: https://github.com/eikur/Zork/wiki \n\
+I hope you enjoy this game as much as I enjoyed doing it!\n\nJorge a.k.a. eikur\n\nPS: Check also my other projects!");
 	peanuts = new Item("peanuts", "This is a bag of peanuts", house, true, false, false);
 
 	chest = new Item("chest", "This is the mistery chest that you were looking for", cave, false, true, true);
