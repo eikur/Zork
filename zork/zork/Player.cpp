@@ -163,10 +163,10 @@ void Player::Drop(const vector<string>& args)
 	else if (args.size() == 4)
 	{
 		Item* destination = (Item*) this->Find(args[3], ITEM);
-		if (destination == NULL)
+		if (destination == NULL || destination == (Item*)drop)
 		{
 			destination = (Item*)GetRoom()->Find(args[3], ITEM);
-			if (destination == NULL)
+			if (destination == NULL || destination == (Item*) drop)
 			{
 				cout << "Are you serious?" << endl;
 				return;
