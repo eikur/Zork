@@ -2,11 +2,11 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include <iostream>
 
 class Room;
 class Link;
 class Duel;
-
 
 using namespace std;
 

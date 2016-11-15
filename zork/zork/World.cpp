@@ -3,13 +3,13 @@
 World::World()
 {
 	//rooms
-	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and there are signs that somebody lives here, but it looks appealing. \nThere is a ladder that goes up, and the door is to the east");
-	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof.");
+	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and there are signs that somebody lives here, but it looks appealing. \nThere is a ladder that goes up, and the exit is to the east");
+	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof. The ladder goes down");
 	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. \nYou see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
 	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.\nYou hear a water stream in the distance");
 	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east.\nYou can cross the river but there is no way of getting to the other side without swimming.");
-	Room* cave = new Room("Cave", "It's pitch black inside. If only you had something to light it up...", false);
+	Room* cave = new Room("Cave", "It's pitch black inside. If only you could use something to light it up...", false);
 
 	this->entities.push_back(house);
 	this->entities.push_back(attic);

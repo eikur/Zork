@@ -78,14 +78,18 @@ void Player::Look(const vector<string>& args) const {
 void Player::Go(const vector<string>& args) {
 	if (args.size() == 1)
 	{
-		cout << "I don't know where to go" << endl;
+		cout << "If only I could know the direction... (north/south/east/west/up/down)" << endl;
 		return;
 	}
 	Link* link = GetRoom()->GetLinkTo(args[1]);
 	if (link == NULL)
 	{
-		cout << "There is nowhere to go in that direction" << endl;
-		return;
+		if(AreEqual(args[1],"north") || AreEqual(args[1],"south") || AreEqual(args[1],"west") || AreEqual(args[1], "east") || AreEqual(args[1], "up") || AreEqual(args[1], "down"))
+		{
+			cout << "There is not an exit in that direction" << endl;
+			return;
+		}
+		cout << "That is not a direction I recognize... (north/south/east/west/up/down)" << endl;
 	}
 	SetNewParent(link->GetDestinationFrom((Room*)parent));
 	parent->Look();
