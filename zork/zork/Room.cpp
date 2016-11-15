@@ -29,8 +29,7 @@ void Room::Look() const
 		{
 			if ((*it)->type == CHARACTER)
 			{
-				Character* ch = (Character*)(*it);
-				cout << "There is someone here: " << ch->name << endl;
+				cout << "There is someone here: " << (*it)->name << endl;
 			}
 		}
 
@@ -50,6 +49,14 @@ void Room::Look() const
 					}
 				}
 
+			}
+		}
+
+		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+		{
+			if ((*it)->type == NOTE)
+			{
+				cout << "There is a note here: " << (*it)->name << endl;
 			}
 		}
 	}
