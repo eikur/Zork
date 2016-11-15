@@ -4,7 +4,7 @@ World::World()
 {
 	//rooms
 	Room* house = new Room("House", "This is a wooden house. It looks rustic and worn down, and there are signs that somebody lives here, but it looks appealing. \nThere is a ladder that goes up, and the exit is to the east");
-	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof. The ladder goes down");
+	Room* attic = new Room("House attic", "The attic is dusty, and only a few rays of light enter through the cracks of the worn out roof. A ladder goes down");
 	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. \nYou see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
 	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.\nYou hear a water stream in the distance");

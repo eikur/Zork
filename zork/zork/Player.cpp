@@ -90,6 +90,7 @@ void Player::Go(const vector<string>& args) {
 			return;
 		}
 		cout << "That is not a direction I recognize... (north/south/east/west/up/down)" << endl;
+		return;
 	}
 	SetNewParent(link->GetDestinationFrom((Room*)parent));
 	parent->Look();
@@ -345,6 +346,7 @@ void Player::EnterDuel() {
 void Player::ExitDuel() {
 	in_a_duel = false;
 	cout << "**  EXITING DUEL MODE  **" << endl;
+	delete duel;
 }
 
 bool Player::DuelAction(const vector<string>& args) const {

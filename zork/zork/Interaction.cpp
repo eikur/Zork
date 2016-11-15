@@ -7,7 +7,12 @@ Interaction::Interaction(const char* code, const char* description, InteractionT
 Interaction::~Interaction(){}
 
 void Interaction::Print() {
-	cout << code << " - " << description << endl;
+	string adjust;
+	if (code.length() < 5)
+		adjust = "\t\t";
+	else
+		adjust = "\t";
+	cout << " > " <<  code << adjust << description << endl;
 }
 
 void Interaction::Say() {

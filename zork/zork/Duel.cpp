@@ -17,29 +17,36 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 	inter[11] = new Interaction("breath", "Even BEFORE they smell your breath?", COMEBACK, inter[4]);
 	inter[12] = new Interaction("borrow", "Why, did you want to borrow one?", COMEBACK, inter[5]);
 	inter[13] = new Interaction("sure", "I wanted to make sure you'd feel comfortable with me", COMEBACK, inter[6]);
-
 	inter[14] = new Interaction("mother", "So is your mother!", COMEBACK, NULL);
 	inter[15] = new Interaction("yeah", "Oh yeah?", COMEBACK, NULL);
 
 	for (int i = 0; i < 16; i++)
+		randomizer.push_back(inter[i]);
+	random_shuffle(randomizer.begin(), randomizer.end());
+
+	for (vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend(); ++it)
 	{
-		if (inter[i]->type == ATTACK)
+		if ((*it)->type == ATTACK)
 		{
-			attacks.push_back(inter[i]);
+			attacks.push_back((*it));
 			continue;
 		}
-		if (inter[i]->type == COMEBACK)
+		if ((*it)->type == COMEBACK)
 		{
-			player_comebacks.push_back(inter[i]);
+			player_comebacks.push_back((*it));
 			continue;
 		}
 	}
-	// improvement: random comebacks each time
-	adversary_comebacks.push_back(inter[7]);
-	adversary_comebacks.push_back(inter[10]);
-	adversary_comebacks.push_back(inter[11]);
-	adversary_comebacks.push_back(inter[8]);
-	adversary_comebacks.push_back(inter[9]);
+	random_shuffle(randomizer.begin(), randomizer.end());
+	for (vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend() && adversary_comebacks_cur < adversary_comebacks_max; ++it)
+	{
+		if ((*it)->type == COMEBACK)
+		{
+			adversary_comebacks.push_back((*it));
+			adversary_comebacks_cur++;
+			continue;
+		}
+	}
 
 	turn = OFFENSE;
 	player_wins = adversary_wins = 0;
@@ -48,18 +55,15 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 }
 
 Duel::~Duel(){
-	
-	for (list<Interaction*>::iterator it = attacks.begin(); it != attacks.end(); ++it)
+
+	for (vector<Interaction*>::iterator it = randomizer.begin(); it != randomizer.end(); ++it)
 		delete *it;
+	randomizer.clear();
+
 	attacks.clear();
-
-	for (list<Interaction*>::iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
-		delete *it;
 	player_comebacks.clear();
-
-	for (list<Interaction*>::iterator it = adversary_comebacks.begin(); it != adversary_comebacks.end(); ++it)
-		delete *it;
 	adversary_comebacks.clear();
+
 }
 
 
@@ -78,13 +82,13 @@ bool Duel::ChooseOption( const vector<string>& args){
 
 void Duel::PrintRemainingAttacks() const{
 	cout << "** Available attacks **" << endl;
-	for (list<Interaction*>::const_iterator it = attacks.begin(); it != attacks.end(); ++it)
+	for (list<Interaction*>::const_iterator it = attacks.cbegin(); it != attacks.cend(); ++it)
 		(*it)->Print();
 	cout << endl << "I say:"; 
 }
 void Duel::PrintPlayerComebacks()const {
 	cout << "** Available comebacks **" << endl;
-	for (list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
+	for (list<Interaction*>::const_iterator it = player_comebacks.cbegin(); it != player_comebacks.cend(); ++it)
 		(*it)->Print();
 	cout << endl << "I say:";
 }
@@ -139,7 +143,7 @@ void Duel::UpdateDuel(){
 	}
 }
 
-Interaction* Duel::CheckOption(const string code, PlayerTurn turn) const
+Interaction* Duel::CheckOption(const string& code, const PlayerTurn turn) const
 {
 	if (turn == OFFENSE)
 	{

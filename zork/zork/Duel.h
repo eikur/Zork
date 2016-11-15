@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <list>
-#include <math.h>
 #include <vector>
+#include <algorithm>
 
 #include "Character.h"
 #include "Player.h"
@@ -16,6 +16,8 @@ enum PlayerTurn {
 	OFFENSE, 
 	DEFENSE
 };
+
+
 class Duel
 {
 
@@ -33,7 +35,7 @@ public:
 	void Win() const;
 
 	bool ChooseOption(const vector<string>& args);
-	Interaction* CheckOption(const string code, PlayerTurn turn) const;
+	Interaction* CheckOption(const string& code, const PlayerTurn turn) const;
 	bool CheckCorrectComeback() const;
 
 	Interaction* AdversaryFindComeback() const;
@@ -41,19 +43,24 @@ public:
 
 	void DeleteAttackOption(Interaction* target);
 
-public:
 	Player* player;
 	Character* adversary;
+	
 	list<Interaction*> attacks;
 	list<Interaction*> player_comebacks;
 	list<Interaction*> adversary_comebacks;
+	int adversary_comebacks_max = 6;
+	int adversary_comebacks_cur = 0;
+
 	Interaction* inter[16];
-	PlayerTurn turn;
+	vector<Interaction*> randomizer;
+
 	Interaction* player_choice;
 	Interaction* adversary_choice;
+	
 	int player_wins;
 	int adversary_wins;
-
+	PlayerTurn turn;
 
 };
 
