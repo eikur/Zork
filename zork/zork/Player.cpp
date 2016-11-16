@@ -25,7 +25,7 @@ void Player::Look(const vector<string>& args) const {
 		{
 			if (CanSee())
 			{
-				for (list<Entity*>::const_iterator it = parent->children.begin(); it != parent->children.end(); ++it)
+				for (list<Entity*>::const_iterator it = parent->children.cbegin(); it != parent->children.cend(); ++it)
 				{
 					if (AreEqual((*it)->name, args[1]))
 					{
@@ -37,7 +37,7 @@ void Player::Look(const vector<string>& args) const {
 						Item* item = (Item*)(*it);
 						if (item->HasStorage() && !item->IsLocked() && item->children.size() > 0)
 						{
-							for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+							for (list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 							{
 								if (AreEqual((*it2)->name, args[1])) {
 									(*it2)->Look();
@@ -48,7 +48,7 @@ void Player::Look(const vector<string>& args) const {
 					}
 				}
 			}
-			for (list<Entity*>::const_iterator it = this->children.begin(); it != this->children.end(); ++it)
+			for (list<Entity*>::const_iterator it = this->children.cbegin(); it != this->children.cend(); ++it)
 			{
 				if (AreEqual((*it)->name, args[1]))
 				{
@@ -58,7 +58,7 @@ void Player::Look(const vector<string>& args) const {
 				Item* item = (Item*)(*it);
 				if (item->HasStorage() && item->children.size() >0 )
 				{
-					for (list<Entity*>::const_iterator it2 = item->children.begin(); it2 != item->children.end(); ++it2)
+					for (list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 					{
 						if (AreEqual((*it2)->name, args[1])) {
 							(*it2)->Look();

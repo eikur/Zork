@@ -13,7 +13,7 @@
 using namespace std;
 
 enum PlayerTurn {
-	OFFENSE, 
+	OFFENSE,
 	DEFENSE
 };
 
@@ -35,7 +35,7 @@ public:
 	void Win() const;
 
 	bool ChooseOption(const vector<string>& args);
-	Interaction* CheckOption(const string& code, const PlayerTurn turn) const;
+	Interaction* CheckOption(const string& code, const PlayerTurn trn) const;
 	bool CheckCorrectComeback() const;
 
 	Interaction* AdversaryFindComeback() const;
@@ -60,7 +60,7 @@ public:
 	
 	int player_wins;
 	int adversary_wins;
-	PlayerTurn turn;
+	enum PlayerTurn turn;
 
 };
 

@@ -143,15 +143,15 @@ void Duel::UpdateDuel(){
 	}
 }
 
-Interaction* Duel::CheckOption(const string& code, const PlayerTurn turn) const
+Interaction* Duel::CheckOption(const string& code, const PlayerTurn trn) const
 {
-	if (turn == OFFENSE)
+	if (trn == OFFENSE)
 	{
 		for (list<Interaction*>::const_iterator it = attacks.begin(); it != attacks.end(); ++it)
 			if (AreEqual((*it)->code, code))
 				return *it;
 	}
-	if (turn == DEFENSE)
+	if (trn == DEFENSE)
 	{
 		for (list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
 			if (AreEqual((*it)->code, code))

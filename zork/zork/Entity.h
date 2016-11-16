@@ -33,7 +33,7 @@ public:
 
 	void SetNewParent(Entity* new_parent);
 
-	Entity* Find(const string& name, EntityType type);
+	Entity* Find(const string& search_name, EntityType search_type);
 	
 	string name;
 	string description;
