@@ -25,7 +25,7 @@ void Item::Look() const
 		{
 			cout << " It contains:" << endl;
 			for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
-				cout << "  *" <<  (*it)->name << endl;
+				cout << "  - " <<  (*it)->name << endl;
 		}
 	}
 }

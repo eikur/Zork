@@ -8,7 +8,7 @@ World::World()
 	Room* field = new Room("Crossing field", "You are in the middle of a sunny field. \nYou see in the distance a thick forest everywhere you look, and a small wooden house nearby to the west.");
 	Room* forest1 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.");
 	Room* forest2 = new Room("Forest", "You are in the middle of a forest. The density of vegetation and trees here make it difficult to orientate.\nYou hear a water stream in the distance");
-	Room* river = new Room("River bed", "A river flows from north to south, and you can see a spooky cave to the east.\nYou can cross the river but there is no way of getting to the other side without swimming.");
+	Room* river = new Room("River bed", "A river flows fiercely from north to south, blocking any route that once was.\nYou can see the forest to the west and a spooky cave to the east.\nYou're happy that you can cross the river without having to swim.");
 	Room* cave = new Room("Cave", "It's pitch black inside. If only you could use something to light it up...", false);
 
 	this->entities.push_back(house);
@@ -48,7 +48,7 @@ World::World()
 	//items & notes
 	trunk = new Item("trunk", "This is a sturdy trunk, but it has seen better days", attic, false, true, true);
 	bag = new Item("bag", "This a waterproof bag. You can stuff things inside", trunk, true, true, false);
-	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);
+	torch = new Item("torch", "This is an old fashioned torch. It only works well when dry", trunk, true, false, false);	
 
 	mailbox = new Item("mailbox", "This is a pretty standard mailbox. I swear I have seen it somewhere else...", field, false, true, true);
 	letter = new Note("letter", "This letter was inside the mailbox", mailbox, true, "Welcome To Zork! Good job finding this letter!\n\
@@ -61,7 +61,7 @@ I hope you enjoy this game as much as I enjoyed doing it!\n\nJorge a.k.a. eikur\
 lands looking for a treasure, and they gone back with naught\nThere were also a few ones that were fool enough to duel with me, and they all failed.\n\
 I am the only rightful heir to the treasure that was found here, and I will only hand it to someone that beats me to a duel. Not that it can happen anytime soon.\n\n\
 If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou already know who I am, right?");
-	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);
+	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);	
 
 	gem = new Item("prize", "This is the gem you came to this lost zone for! You can see how bright it is, you can make tons of money with it!", hermit, true, false, false);
 

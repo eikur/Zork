@@ -34,14 +34,15 @@ void Entity::SetNewParent(Entity* new_parent)
 }
 
 Entity * Entity::Find(const string & name, EntityType type)
-{
+{	
 	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if (AreEqual((*it)->name, name) && (*it)->type == type)
 			return *it;
-		if (type == ITEM && (*it)->type == ITEM && (*it)->children.size() > 0)
+		//if (type == ITEM && (*it)->type == ITEM && (*it)->children.size() > 0)
+		if ((*it)->type == ITEM && (*it)->children.size() > 0)
 			for (list<Entity*>::const_iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); ++it2)
-				if (AreEqual((*it2)->name, name))
+				if (AreEqual((*it2)->name, name) && (*it2)->type == type)	//if (AreEqual((*it2)->name, name) )
 					return *it2;
 	}
 	return NULL;

@@ -114,7 +114,7 @@ void Player::Take(const vector<string>& args)
 		target = GetRoom()->Find(args[1], NOTE);
 	if (target == NULL)
 	{
-		cout << "I can't see any item by that name" << endl;
+		cout << "I can't see any item by that name in my surroundings." << endl;
 		return;
 	}
 
@@ -197,9 +197,15 @@ void Player::Inventory() const
 		return;
 	}
 	cout << "I own:" << endl;
-	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	for (list<Entity*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
-		cout << " *" << (*it)->name << endl;
+		cout << " > " << (*it)->name << endl;
+		if ((*it)->children.size() > 0)
+		{
+			cout << " It contains: " << endl;
+			for (list<Entity*>::const_iterator it2 = (*it)->children.cbegin(); it2 != (*it)->children.cend(); ++it2)
+				cout << "  - " << (*it2)->name << endl;
+		}
 	}
 }
 
@@ -273,10 +279,13 @@ void Player::Use(const vector<string>& args) {
 		if (AreEqual(parent->name,"Cave"))
 		{
 			Room* cave = (Room*)parent;
-			cout << "You lit the cave!" << endl << endl;
-			cave->description = "This looks like a millenial cave, not known to man, waiting here to be discovered. However, you see some dried footsteps in the mud. Did you arrive too late..?";
-			cave->SetIllumination(true);			
-			parent->Look();
+			if (!cave->IsIlluminated())
+			{
+				cout << "You lit the cave!" << endl << endl;
+				cave->description = "This looks like a thousand year old cave, not known to man, waiting here to be discovered.\nHowever, you see some evidences that people have been here: footsteps in the mud, some abandoned flares...\nDid you arrive too late..?";
+				cave->SetIllumination(true);
+				parent->Look();
+			}
 		}
 		return;
 	}
@@ -287,10 +296,13 @@ void Player::Use(const vector<string>& args) {
 	}
 	if (AreEqual(target->name, "peanuts"))
 	{
-		cout << "I am not really hungry. Maybe later!" << endl;
+		cout << "I am not an elephant, and I am not really hungry... Maybe later!" << endl;
 		return;
 	}
-	cout << "I understood up to the use part" << endl;
+	if (target != NULL)
+		cout << "I don't know how society expects me to use it!" << endl;
+	else
+		cout << "I understood up to the use part" << endl;
 }
 
 void Player::Talk(const vector<string>& args) const {
