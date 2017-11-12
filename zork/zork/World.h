@@ -13,19 +13,17 @@
 #include "Item.h"
 #include "Note.h"
 
-using namespace std;
-
 class World 
 {
 
 public:
 	World();
 	~World();
-	bool ParsePlayerCommands(const vector<string>& commands) const;
-	void GetPlayerCommands(const vector<string>& commands) const;
+	bool ParsePlayerCommands(const std::vector<std::string>& commands) const;
+	void GetPlayerCommands(const std::vector<std::string>& commands) const;
 
 private:
-	list<Entity*> entities;
+	std::list<Entity*> entities;
 	Player* player;
 	Character* hermit;
 	

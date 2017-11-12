@@ -1,5 +1,30 @@
 #include "World.h"
 
+namespace
+{
+	const std::string kCommandLook = "look";
+	const std::string kCommandUse = "use";
+	const std::string kCommandTake = "take";
+	const std::string kCommandGo = "go";
+	const std::string kCommandDrop = "drop";
+	const std::string kCommandInventory = "inventory";
+	const std::string kCommandRead = "read";
+	const std::string kCommandOpen = "open";
+	const std::string kCommandTalk = "talk";
+	const std::string kCommandDuel = "duel";
+
+	const std::string kCommandLookShort = "l";
+	const std::string kCommandUseShort = "u";
+	const std::string kCommandTakeShort = "t";
+	const std::string kCommandGoShort = "g";
+	const std::string kCommandDropShort = "d";
+	const std::string kCommandInventoryShort = "i";
+	const std::string kCommandReadShort = "r";
+	const std::string kCommandOpenShort = "o";
+	const std::string kCommandTalkShort = "k";
+	const std::string kCommandDuelShort = "x";
+}
+
 World::World()
 {
 	//rooms
@@ -81,45 +106,45 @@ If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou
 
 World::~World()
 {
-	for (list<Entity*>::iterator iter = entities.begin(); iter != entities.end(); iter++)
+	for (std::list<Entity*>::iterator iter = entities.begin(); iter != entities.end(); iter++)
 		delete *iter;
 	entities.clear();
 }
 
-bool World::ParsePlayerCommands(const vector<string>& commands) const
+bool World::ParsePlayerCommands(const std::vector<std::string>& commands) const
 {
 	bool result = true;
 	
 	if (!player->IsDueling())
 	{
-		if (AreEqual(commands[0], "look") || AreEqual(commands[0], "l")) {
+		if (AreEqual(commands[0], kCommandLook) || AreEqual(commands[0], kCommandLookShort)) {
 			player->Look(commands);
 		}
-		else if (AreEqual(commands[0], "go") || AreEqual(commands[0], "g")) {
+		else if (AreEqual(commands[0], kCommandGo) || AreEqual(commands[0], kCommandGoShort)) {
 			player->Go(commands);
 		}
-		else if (AreEqual(commands[0], "take") || AreEqual(commands[0], "t")) {
+		else if (AreEqual(commands[0], kCommandTake) || AreEqual(commands[0], kCommandTakeShort)) {
 			player->Take(commands);
 		}
-		else if (AreEqual(commands[0], "drop") || AreEqual(commands[0], "d")) {
+		else if (AreEqual(commands[0], kCommandDrop) || AreEqual(commands[0], kCommandDropShort)) {
 			player->Drop(commands);
 		}
-		else if (AreEqual(commands[0], "inventory") || AreEqual(commands[0], "i")) {
+		else if (AreEqual(commands[0], kCommandInventory) || AreEqual(commands[0], kCommandInventoryShort)) {
 			player->Inventory();
 		}
-		else if (AreEqual(commands[0], "open") || AreEqual(commands[0], "o")) {
+		else if (AreEqual(commands[0], kCommandOpen) || AreEqual(commands[0], kCommandOpenShort)) {
 			player->Open(commands);
 		}
-		else if (AreEqual(commands[0], "read") || AreEqual(commands[0], "r")) {
+		else if (AreEqual(commands[0], kCommandRead) || AreEqual(commands[0], kCommandReadShort)) {
 			player->Read(commands);
 		}
-		else if (AreEqual(commands[0], "use") || AreEqual(commands[0], "u")) {
+		else if (AreEqual(commands[0], kCommandUse) || AreEqual(commands[0], kCommandUseShort)) {
 			player->Use(commands);
 		}
-		else if (AreEqual(commands[0], "talk") || AreEqual(commands[0], "k")) {
+		else if (AreEqual(commands[0], kCommandTalk) || AreEqual(commands[0], kCommandTalkShort)) {
 			player->Talk(commands);
 		}
-		else if (AreEqual(commands[0], "duel") || AreEqual(commands[0], "x")) {
+		else if (AreEqual(commands[0], kCommandDuel) || AreEqual(commands[0], kCommandDuelShort)) {
 			player->StartDuel(commands);
 		}
 		else
@@ -135,11 +160,12 @@ bool World::ParsePlayerCommands(const vector<string>& commands) const
 	return result;
 }
 
-void World::GetPlayerCommands(const vector<string>& commands) const
+void World::GetPlayerCommands(const std::vector<std::string>& commands) const
 {
-	bool result = true; 
-	result = ParsePlayerCommands(commands);
+	bool result = ParsePlayerCommands(commands);
 
-	if (result == false)
-		cout << "Sorry, I didn't quite get your command" << endl;
+	if (!result)
+	{
+		std::cout << "Sorry, I didn't quite get your command" << std::endl;
+	}
 }

@@ -2,13 +2,13 @@
 
 Duel::Duel(Player* player, Character* adversary): player(player), adversary(adversary)
 {
-	inter[0] = new Interaction("farmer", "You fight like a dairy farmer", ATTACK, NULL);
-	inter[1] = new Interaction("stand", "You will never stand a chance", ATTACK, NULL);
-	inter[2] = new Interaction("begins", "Your defeat begins with me", ATTACK, NULL);
-	inter[3] = new Interaction("brain", "My brain is on a whole another level", ATTACK, NULL);
-	inter[4] = new Interaction("feet", "People fall at my feet when they see me coming", ATTACK, NULL);
-	inter[5] = new Interaction("diapers", "Have you stopped wearing diapers yet?", ATTACK, NULL);
-	inter[6] = new Interaction("manners", "You have the manners of a beggar.", ATTACK, NULL);
+	inter[0] = new Interaction("farmer", "You fight like a dairy farmer", ATTACK, nullptr);
+	inter[1] = new Interaction("stand", "You will never stand a chance", ATTACK, nullptr);
+	inter[2] = new Interaction("begins", "Your defeat begins with me", ATTACK, nullptr);
+	inter[3] = new Interaction("brain", "My brain is on a whole another level", ATTACK, nullptr);
+	inter[4] = new Interaction("feet", "People fall at my feet when they see me coming", ATTACK, nullptr);
+	inter[5] = new Interaction("diapers", "Have you stopped wearing diapers yet?", ATTACK, nullptr);
+	inter[6] = new Interaction("manners", "You have the manners of a beggar.", ATTACK, nullptr);
 
 	inter[7] = new Interaction("cow", "How appropriate. You fight like a cow", COMEBACK, inter[0]);
 	inter[8] = new Interaction("sheng", "Little you know, I overcame Sheng Long TWICE!", COMEBACK, inter[1]);
@@ -17,14 +17,14 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 	inter[11] = new Interaction("breath", "Even BEFORE they smell your breath?", COMEBACK, inter[4]);
 	inter[12] = new Interaction("borrow", "Why, did you want to borrow one?", COMEBACK, inter[5]);
 	inter[13] = new Interaction("sure", "I wanted to make sure you'd feel comfortable with me", COMEBACK, inter[6]);
-	inter[14] = new Interaction("mother", "So is your mother!", COMEBACK, NULL);
-	inter[15] = new Interaction("yeah", "Oh yeah?", COMEBACK, NULL);
+	inter[14] = new Interaction("mother", "So is your mother!", COMEBACK, nullptr);
+	inter[15] = new Interaction("yeah", "Oh yeah?", COMEBACK, nullptr);
 
 	for (int i = 0; i < 16; i++)
 		randomizer.push_back(inter[i]);
 	random_shuffle(randomizer.begin(), randomizer.end());
 
-	for (vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend(); ++it)
+	for (std::vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend(); ++it)
 	{
 		if ((*it)->type == ATTACK)
 		{
@@ -38,7 +38,7 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 		}
 	}
 	random_shuffle(randomizer.begin(), randomizer.end());
-	for (vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend() && adversary_comebacks_cur < adversary_comebacks_max; ++it)
+	for (std::vector<Interaction*>::const_iterator it = randomizer.cbegin(); it != randomizer.cend() && adversary_comebacks_cur < adversary_comebacks_max; ++it)
 	{
 		if ((*it)->type == COMEBACK)
 		{
@@ -48,7 +48,7 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 		}
 	}
 
-	turn = OFFENSE;
+	turn = PlayerTurn::OFFENSE;
 	player_wins = adversary_wins = 0;
 	player->EnterDuel();
 	PrintRemainingAttacks();
@@ -56,7 +56,7 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 
 Duel::~Duel(){
 
-	for (vector<Interaction*>::iterator it = randomizer.begin(); it != randomizer.end(); ++it)
+	for (std::vector<Interaction*>::iterator it = randomizer.begin(); it != randomizer.end(); ++it)
 		delete *it;
 	randomizer.clear();
 
@@ -67,13 +67,13 @@ Duel::~Duel(){
 }
 
 
-bool Duel::ChooseOption( const vector<string>& args){
+bool Duel::ChooseOption( const std::vector<std::string>& args){
 	if (AreEqual(args[0], "surrender") ) {
 		Surrender();
 		return true;
 	}
 	player_choice = CheckOption(args[0], turn);
-	if (player_choice == NULL)
+	if (player_choice == nullptr)
 		return false; 
 	UpdateDuel();
 	return true;
@@ -81,60 +81,61 @@ bool Duel::ChooseOption( const vector<string>& args){
 
 
 void Duel::PrintRemainingAttacks() const{
-	cout << "** Available attacks **" << endl;
-	for (list<Interaction*>::const_iterator it = attacks.cbegin(); it != attacks.cend(); ++it)
+	std::cout << "** Available attacks **" << std::endl;
+	for (std::list<Interaction*>::const_iterator it = attacks.cbegin(); it != attacks.cend(); ++it)
 		(*it)->Print();
-	cout << endl << "I say:"; 
+	std::cout << std::endl << "I say:";
 }
+
 void Duel::PrintPlayerComebacks()const {
-	cout << "** Available comebacks **" << endl;
-	for (list<Interaction*>::const_iterator it = player_comebacks.cbegin(); it != player_comebacks.cend(); ++it)
+	std::cout << "** Available comebacks **" << std::endl;
+	for (std::list<Interaction*>::const_iterator it = player_comebacks.cbegin(); it != player_comebacks.cend(); ++it)
 		(*it)->Print();
-	cout << endl << "I say:";
+	std::cout << std::endl << "I say:";
 }
 void Duel::Surrender() const {
-	cout << "I surrendered the duel!!" << endl;
+	std::cout << "I surrendered the duel!!" << std::endl;
 	player->ExitDuel();
 }
 
 void Duel::UpdateDuel(){
-	if (turn == OFFENSE)
+	if (turn == PlayerTurn::OFFENSE)
 	{
 		player_choice->Say();
 		adversary_choice = AdversaryFindComeback();
-		if (adversary_choice == NULL)
+		if (adversary_choice == nullptr)
 		{
-			cout << adversary->name << " says:" << endl; 
-			cout << "So's your mother!" << endl;
-			cout << endl << "** I won advantage! **" << endl << endl;
-			turn = OFFENSE;
+			std::cout << adversary->name << " says:" << std::endl;
+			std::cout << "So's your mother!" << std::endl;
+			std::cout << std::endl << "** I won advantage! **" << std::endl << std::endl;
+			turn = PlayerTurn::OFFENSE;
 			player_wins++;
 		}
 		else
 		{
-			cout << adversary->name << " says: "  << endl;
+			std::cout << adversary->name << " says: "  << std::endl;
 			adversary_choice->Say(); 
-			cout << "** I lost advantage... **" << endl << endl;
-			turn = DEFENSE;
+			std::cout << "** I lost advantage... **" << std::endl << std::endl;
+			turn = PlayerTurn::DEFENSE;
 			adversary_wins++;
 		}
 		DeleteAttackOption(player_choice);
 		PrepareNextRound();
 		return;
 	}
-	if (turn == DEFENSE)
+	if (turn == PlayerTurn::DEFENSE)
 	{
 		player_choice->Say();
 		if (CheckCorrectComeback())
 		{
-			cout << endl << "** You won advantage! **" << endl << endl;
-			turn = OFFENSE;
+			std::cout << std::endl << "** You won advantage! **" << std::endl << std::endl;
+			turn = PlayerTurn::OFFENSE;
 			player_wins++;
 		}
 		else
 		{
-			cout << "** You lost advantage! **" << endl << endl;
-			turn = DEFENSE;
+			std::cout << "** You lost advantage! **" << std::endl << std::endl;
+			turn = PlayerTurn::DEFENSE;
 			adversary_wins++;
 		}
 		DeleteAttackOption(adversary_choice);
@@ -143,26 +144,26 @@ void Duel::UpdateDuel(){
 	}
 }
 
-Interaction* Duel::CheckOption(const string& code, const PlayerTurn trn) const
+Interaction* Duel::CheckOption(const std::string& code, const PlayerTurn trn) const
 {
-	if (trn == OFFENSE)
+	if (trn == PlayerTurn::OFFENSE)
 	{
-		for (list<Interaction*>::const_iterator it = attacks.begin(); it != attacks.end(); ++it)
+		for (std::list<Interaction*>::const_iterator it = attacks.begin(); it != attacks.end(); ++it)
 			if (AreEqual((*it)->code, code))
 				return *it;
 	}
-	if (trn == DEFENSE)
+	if (trn == PlayerTurn::DEFENSE)
 	{
-		for (list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
+		for (std::list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
 			if (AreEqual((*it)->code, code))
 				return *it;
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool Duel::CheckCorrectComeback() const
 {
-	for (list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
+	for (std::list<Interaction*>::const_iterator it = player_comebacks.begin(); it != player_comebacks.end(); ++it)
 		if ((*it)->response_to == adversary_choice && *it == player_choice)
 			return true;
 	return false;
@@ -174,43 +175,43 @@ Interaction* Duel::AdversaryChooseAttack() const {
 }
 Interaction* Duel::AdversaryFindComeback() const
 {
-	for (list<Interaction*>::const_iterator it = adversary_comebacks.begin(); it != adversary_comebacks.end(); ++it)
+	for (std::list<Interaction*>::const_iterator it = adversary_comebacks.begin(); it != adversary_comebacks.end(); ++it)
 		if ((*it)->response_to == player_choice)
 			return *it;
-	return NULL;
+	return nullptr;
 }
 
 void Duel::DeleteAttackOption( Interaction* target)
 {
 	attacks.remove(target);
-	target = NULL;
+	target = nullptr;
 }
 
 void Duel::PrepareNextRound() {
 	if (player_wins == 3)
 	{
-		cout << endl << "With my last move, I opened a hole in " << adversary->name << "'s defense" << endl;
-		cout << "There is simply no way anybody could retaliate from this position!" << endl;
-		cout << adversary->name << " surrenders! I've won!!" << endl;
+		std::cout << std::endl << "With my last move, I opened a hole in " << adversary->name << "'s defense" << std::endl;
+		std::cout << "There is simply no way anybody could retaliate from this position!" << std::endl;
+		std::cout << adversary->name << " surrenders! I've won!!" << std::endl;
 		Win();
 		return;
 	}
 	if (adversary_wins == 3)
 	{
-		cout << endl << "With " << adversary->name << "'s last move, my defense was broken" << endl;
-		cout << "There is no way I can retaliate from this position" << endl;
+		std::cout << std::endl << "With " << adversary->name << "'s last move, my defense was broken" << std::endl;
+		std::cout << "There is no way I can retaliate from this position" << std::endl;
 		Surrender();
 		return;
 	}
-	cout << "***** Next round ***** " << endl;
-	if (turn == OFFENSE)
+	std::cout << "***** Next round ***** " << std::endl;
+	if (turn == PlayerTurn::OFFENSE)
 	{
 		PrintRemainingAttacks();
 	}
 	else
 	{
 		adversary_choice = AdversaryChooseAttack();
-		cout << adversary->name << " says: " << endl;
+		std::cout << adversary->name << " says: " << std::endl;
 		adversary_choice->Say();
 		PrintPlayerComebacks();
 	}
@@ -219,6 +220,6 @@ void Duel::PrepareNextRound() {
 void Duel::Win() const
 {
 	adversary->GiveDuelPrize(player);
-	adversary->beaten = true;
+	adversary->setBeaten(true);
 	player->ExitDuel();
 }

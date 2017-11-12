@@ -1,8 +1,8 @@
 #include "Item.h"
 
-Item::Item(const char* name, const char* description, Entity* parent, bool takeable, bool storage, bool locked) : Entity(name, description, parent), takeable(takeable), storage(storage), locked(locked)
+Item::Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked, EntityType type) 
+	: Entity(name, description, type, parent), takeable(takeable), storage(storage), locked(locked)
 {
-	type = ITEM;
 }
 
 Item::~Item()
@@ -11,21 +11,21 @@ Item::~Item()
 
 void Item::Look() const
 {
-	cout << "** " << name << " **" << endl;
-	cout << description << endl;
+	std::cout << "** " << name << " **" << std::endl;
+	std::cout << description << std::endl;
 	if (IsLocked())
 	{
-		cout << " It's closed!" << endl;
+		std::cout << " It's closed!" << std::endl;
 	}
 	else if (HasStorage())
 	{
 		if (children.size() == 0)
-			cout << " It's empty!" << endl;
+			std::cout << " It's empty!" << std::endl;
 		else
 		{
-			cout << " It contains:" << endl;
-			for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
-				cout << "  - " <<  (*it)->name << endl;
+			std::cout << " It contains:" << std::endl;
+			for (std::list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+				std::cout << "  - " <<  (*it)->name << std::endl;
 		}
 	}
 }
@@ -34,11 +34,13 @@ bool Item::IsTakeable() const
 {
 	return takeable;
 }
-bool Item::HasStorage() const {
+bool Item::HasStorage() const 
+{
 	return storage;
 }
 
-bool Item::IsLocked() const {
+bool Item::IsLocked() const 
+{
 	return locked;
 }
 

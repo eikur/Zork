@@ -1,20 +1,20 @@
 #include "Interaction.h"
 
-Interaction::Interaction(const char* code, const char* description, InteractionType type, Interaction* response_to) :
+Interaction::Interaction(const std::string& code, const std::string& description, InteractionType type, Interaction* response_to) :
 	code(code), description(description), type(type), response_to(response_to) {
 }
 
 Interaction::~Interaction(){}
 
 void Interaction::Print() {
-	string adjust;
+	std::string adjust;
 	if (code.length() < 5)
 		adjust = "\t\t";
 	else
 		adjust = "\t";
-	cout << " > " <<  code << adjust << description << endl;
+	std::cout << " > " <<  code << adjust << description << std::endl;
 }
 
 void Interaction::Say() {
-	cout << description << endl << endl;
+	std::cout << description << std::endl << std::endl;
 }

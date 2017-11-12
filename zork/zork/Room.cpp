@@ -2,16 +2,12 @@
 #include "Link.h"
 #include "Character.h"
 #include "Item.h"
+#include <string>
 
+using namespace std;
 
-Room::Room(const char* name, const char* description) : Entity(name, description, NULL), illuminated(true)
+Room::Room(const std::string& name, const std::string& description, bool illuminated) : Entity(name, description, EntityType::ROOM), illuminated(illuminated)
 {
-	type = ROOM;
-}
-
-Room::Room(const char* name, const char* description, bool illuminated) : Entity(name, description, NULL), illuminated(illuminated)
-{
-	type = ROOM;
 }
 
 Room::~Room()
@@ -27,7 +23,7 @@ void Room::Look() const
 	{
 		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 		{
-			if ((*it)->type == CHARACTER)
+			if ((*it)->getType() == EntityType::CHARACTER)
 			{
 				cout << "There is someone here: " << (*it)->name << endl;
 			}
@@ -35,7 +31,7 @@ void Room::Look() const
 
 		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 		{
-			if ((*it)->type == ITEM)
+			if ((*it)->getType() == EntityType::ITEM)
 			{
 				Item* item = (Item*)(*it);
 				cout << "There is an item: " << item->name << endl;
@@ -54,7 +50,7 @@ void Room::Look() const
 
 		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 		{
-			if ((*it)->type == NOTE)
+			if ((*it)->getType() == EntityType::NOTE)
 			{
 				cout << "There is a note here: " << (*it)->name << endl;
 			}
@@ -66,14 +62,14 @@ Link* Room::GetLinkTo(const string& direction) const
 {
 	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 	{
-		if( (*it)->type == LINK)
+		if( (*it)->getType() == EntityType::LINK)
 		{ 
 			Link* link = (Link*)(*it);
 			if (AreEqual(link->GetDirectionFrom(this), direction))
 				return link;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool Room::IsIlluminated() const

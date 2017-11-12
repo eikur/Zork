@@ -1,12 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(const char* name, const char* description, Entity* parent) : name(name), description(description), parent(parent)
+Entity::Entity(const std::string& name, const std::string& description, EntityType type, Entity* parent) 
+	: name(name), description(description), _type(type), parent(parent)
 {
-	if (parent != NULL)
+	if (parent != nullptr)
 	{
 		parent->children.push_back(this);
 	}
-	type = ENTITY;
 }
 
 Entity::~Entity()
@@ -15,8 +15,8 @@ Entity::~Entity()
 
 void Entity::Look() const
 {
-	cout << "** " << name << " **" << endl;
-	cout << description << endl;
+	std::cout << "** " << name << " **" << std::endl;
+	std::cout << description << std::endl;
 }
 
 bool Entity::IsTakeable() const
@@ -24,25 +24,30 @@ bool Entity::IsTakeable() const
 	return false;
 }
 
+EntityType Entity::getType() const
+{
+	return _type;
+}
+
 void Entity::SetNewParent(Entity* new_parent)
 {
-	if (parent != NULL)
+	if (parent != nullptr)
 		parent->children.remove(this);
 	parent = new_parent;
-	if (parent != NULL)
+	if (parent != nullptr)
 		parent->children.push_back(this);
 }
 
-Entity * Entity::Find(const string & search_name, EntityType search_type)
+Entity * Entity::Find(const std::string& search_name, EntityType search_type)
 {	
-	for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
+	for (std::list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 	{
-		if (AreEqual((*it)->name, search_name) && (*it)->type == search_type)
+		if (AreEqual((*it)->name, search_name) && (*it)->getType() == search_type)
 			return *it;
-		if ((*it)->type == ITEM && (*it)->children.size() > 0)
-			for (list<Entity*>::const_iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); ++it2)
-				if (AreEqual((*it2)->name, search_name) && (*it2)->type == search_type)
+		if ((*it)->getType() == EntityType::ITEM && (*it)->children.size() > 0)
+			for (std::list<Entity*>::const_iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); ++it2)
+				if (AreEqual((*it2)->name, search_name) && (*it2)->getType() == search_type)
 					return *it2;
 	}
-	return NULL;
+	return nullptr;
 }

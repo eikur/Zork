@@ -2,16 +2,17 @@
 #define NOTE_H
 
 #include "Item.h"
+#include <string>
 
 class Note : public Item {
 public:
-	Note(const char* name, const char* description, Entity* parent, bool takeable, string text);
+	Note(const std::string& name, const std::string& description, Entity* parent, bool takeable, const std::string& text);
 	~Note();
 
 	void Read() const;
 
 private:
-	string text;
+	std::string text;
 };
 
 #endif

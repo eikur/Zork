@@ -6,38 +6,39 @@
 #include "Note.h"
 #include "Duel.h"
 
-Player::Player( const char* name, const char* description, Room* parent ):Character(name, description, parent){
-	type = PLAYER;
-	in_a_duel = false;
+Player::Player(const std::string& name, const std::string& description, Room* parent)
+	: Character(name, description, parent, "", EntityType::PLAYER)
+{
+	_inDuel = false;
 }
 
 Player::~Player(){}
 
-void Player::Look(const vector<string>& args) const {
+void Player::Look(const std::vector<std::string>& args) const {
 	if (args.size() > 1)
 	{
 		if (AreEqual(args[1],"me") || AreEqual(args[1],"player" ) )
 		{
-			cout << "** " << name << " **" << endl;
-			cout << description << endl;
+			std::cout << "** " << name << " **" << std::endl;
+			std::cout << description << std::endl;
 		}
 		else
 		{
 			if (CanSee())
 			{
-				for (list<Entity*>::const_iterator it = parent->children.cbegin(); it != parent->children.cend(); ++it)
+				for (std::list<Entity*>::const_iterator it = parent->children.cbegin(); it != parent->children.cend(); ++it)
 				{
 					if (AreEqual((*it)->name, args[1]))
 					{
 						(*it)->Look();
 						return;
 					}
-					if ((*it)->type == ITEM)
+					if ((*it)->getType() == EntityType::ITEM)
 					{
 						Item* item = (Item*)(*it);
 						if (item->HasStorage() && !item->IsLocked() && item->children.size() > 0)
 						{
-							for (list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
+							for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 							{
 								if (AreEqual((*it2)->name, args[1])) {
 									(*it2)->Look();
@@ -48,7 +49,7 @@ void Player::Look(const vector<string>& args) const {
 					}
 				}
 			}
-			for (list<Entity*>::const_iterator it = this->children.cbegin(); it != this->children.cend(); ++it)
+			for (std::list<Entity*>::const_iterator it = this->children.cbegin(); it != this->children.cend(); ++it)
 			{
 				if (AreEqual((*it)->name, args[1]))
 				{
@@ -58,7 +59,7 @@ void Player::Look(const vector<string>& args) const {
 				Item* item = (Item*)(*it);
 				if (item->HasStorage() && item->children.size() >0 )
 				{
-					for (list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
+					for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 					{
 						if (AreEqual((*it2)->name, args[1])) {
 							(*it2)->Look();
@@ -67,7 +68,7 @@ void Player::Look(const vector<string>& args) const {
 					}
 				}
 			}
-			cout << "I can't find That" << endl;
+			std::cout << "I can't find That" << std::endl;
 
 		}
 	}
@@ -75,21 +76,21 @@ void Player::Look(const vector<string>& args) const {
 		parent->Look();
 }
 
-void Player::Go(const vector<string>& args) {
+void Player::Go(const std::vector<std::string>& args) {
 	if (args.size() == 1)
 	{
-		cout << "If only I could know the direction... (north/south/east/west/up/down)" << endl;
+		std::cout << "If only I could know the direction... (north/south/east/west/up/down)" << std::endl;
 		return;
 	}
 	Link* link = GetRoom()->GetLinkTo(args[1]);
-	if (link == NULL)
+	if (link == nullptr)
 	{
 		if(AreEqual(args[1],"north") || AreEqual(args[1],"south") || AreEqual(args[1],"west") || AreEqual(args[1], "east") || AreEqual(args[1], "up") || AreEqual(args[1], "down"))
 		{
-			cout << "There is not an exit in that direction" << endl;
+			std::cout << "There is not an exit in that direction" << std::endl;
 			return;
 		}
-		cout << "That is not a direction I recognize... (north/south/east/west/up/down)" << endl;
+		std::cout << "That is not a direction I recognize... (north/south/east/west/up/down)" << std::endl;
 		return;
 	}
 	SetNewParent(link->GetDestinationFrom((Room*)parent));
@@ -97,95 +98,95 @@ void Player::Go(const vector<string>& args) {
 
 }
 
-void Player::Take(const vector<string>& args)
+void Player::Take(const std::vector<std::string>& args)
 {
 	if (!CanSee())
 	{
-		cout << "It's too dark in here!" << endl;
+		std::cout << "It's too dark in here!" << std::endl;
 		return;
 	}
 	if (args.size() == 1)
 	{
-		cout << "I don't know what to take" << endl;
+		std::cout << "I don't know what to take" << std::endl;
 		return;
 	}
-	Entity* target = GetRoom()->Find(args[1], ITEM);
-	if (target == NULL)
-		target = GetRoom()->Find(args[1], NOTE);
-	if (target == NULL)
+	Entity* target = GetRoom()->Find(args[1], EntityType::ITEM);
+	if (target == nullptr)
+		target = GetRoom()->Find(args[1], EntityType::NOTE);
+	if (target == nullptr)
 	{
-		cout << "I can't see any item by that name in my surroundings." << endl;
+		std::cout << "I can't see any item by that name in my surroundings." << std::endl;
 		return;
 	}
 
-	if (target->parent->type == ITEM)
+	if (target->parent->getType() == EntityType::ITEM)
 	{
 		Item* container = (Item*)target->parent;
 		if (container->IsLocked())
 		{
-			cout << "I can't see any item by that name" << endl;
+			std::cout << "I can't see any item by that name" << std::endl;
 			return;
 		}
 	}
 	if (target->IsTakeable() == true)
 	{
 		target->SetNewParent(this);
-		cout << "Taken" << endl;
+		std::cout << "Taken" << std::endl;
 	}
 	else
-		cout << "This is an item that I cannot take with me" << endl;
+		std::cout << "This is an item that I cannot take with me" << std::endl;
 }
 
-void Player::Drop(const vector<string>& args)
+void Player::Drop(const std::vector<std::string>& args)
 {
 	if (!CanSee())
 	{
-		cout << "It's too dark in here!" << endl;
+		std::cout << "It's too dark in here!" << std::endl;
 		return;
 	}
 	if (args.size() == 1)
 	{
-		cout << "I don't know what to drop" << endl;
+		std::cout << "I don't know what to drop" << std::endl;
 		return;
 	}
-	Entity* drop = this->Find(args[1], ITEM);
-	if (drop == NULL)
-		drop = this->Find(args[1], NOTE);
-	if (drop == NULL)
+	Entity* drop = this->Find(args[1], EntityType::ITEM);
+	if (drop == nullptr)
+		drop = this->Find(args[1], EntityType::NOTE);
+	if (drop == nullptr)
 	{
-		cout << "I can't drop something I don't own!" << endl;
+		std::cout << "I can't drop something I don't own!" << std::endl;
 		return;
 	}
 	if (args.size() == 2)
 	{
 		drop->SetNewParent(this->parent);
-		cout << "Dropped" << endl;
+		std::cout << "Dropped" << std::endl;
 	}
 	else if (args.size() == 4)
 	{
-		Item* destination = (Item*) this->Find(args[3], ITEM);
-		if (destination == NULL || destination == (Item*)drop)
+		Item* destination = (Item*) this->Find(args[3], EntityType::ITEM);
+		if (destination == nullptr || destination == (Item*)drop)
 		{
-			destination = (Item*)GetRoom()->Find(args[3], ITEM);
-			if (destination == NULL || destination == (Item*) drop)
+			destination = (Item*)GetRoom()->Find(args[3], EntityType::ITEM);
+			if (destination == nullptr || destination == (Item*) drop)
 			{
-				cout << "Are you serious?" << endl;
+				std::cout << "Are you serious?" << std::endl;
 				return;
 			}
 		}
 		if (destination->HasStorage() && !destination->IsLocked())
 		{
 			drop->SetNewParent(destination);
-			cout << "Dropped " << drop->name << " into " << destination->name << endl;
+			std::cout << "Dropped " << drop->name << " into " << destination->name << std::endl;
 		}
 		else
 		{
-			cout << "I can't drop " << drop->name << " into " << destination->name << endl;
+			std::cout << "I can't drop " << drop->name << " into " << destination->name << std::endl;
 		}
 	}
 	else
 	{
-		cout << "I understood up to the drop part" << endl;
+		std::cout << "I understood up to the drop part" << std::endl;
 	}
 }
 
@@ -193,95 +194,95 @@ void Player::Inventory() const
 {
 	if (children.size() == 0)
 	{
-		cout << "I don't own anything" << endl;
+		std::cout << "I don't own anything" << std::endl;
 		return;
 	}
-	cout << "I own:" << endl;
-	for (list<Entity*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
+	std::cout << "I own:" << std::endl;
+	for (std::list<Entity*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
 	{
-		cout << " > " << (*it)->name << endl;
+		std::cout << " > " << (*it)->name << std::endl;
 		if ((*it)->children.size() > 0)
 		{
-			cout << " It contains: " << endl;
-			for (list<Entity*>::const_iterator it2 = (*it)->children.cbegin(); it2 != (*it)->children.cend(); ++it2)
-				cout << "  - " << (*it2)->name << endl;
+			std::cout << " It contains: " << std::endl;
+			for (std::list<Entity*>::const_iterator it2 = (*it)->children.cbegin(); it2 != (*it)->children.cend(); ++it2)
+				std::cout << "  - " << (*it2)->name << std::endl;
 		}
 	}
 }
 
-void Player::Open(const vector<string>& args) {
+void Player::Open(const std::vector<std::string>& args) {
 	if (!CanSee())
 	{
-		cout << "It's too dark in here!" << endl;
+		std::cout << "It's too dark in here!" << std::endl;
 		return;
 	}
 	if (args.size() == 1)
 	{
-		cout << "I don't know what to open!" << endl;
+		std::cout << "I don't know what to open!" << std::endl;
 		return;
 	}
-	Item* item = (Item*)GetRoom()->Find(args[1], ITEM);
-	if (item == NULL)
+	Item* item = (Item*)GetRoom()->Find(args[1], EntityType::ITEM);
+	if (item == nullptr)
 	{
-		cout << "I can't see any item by that name" << endl;
+		std::cout << "I can't see any item by that name" << std::endl;
 		return;
 	}
 	if (item->IsLocked())
 	{
 		item->Unlock();
-		cout << "Opened" << endl;
+		std::cout << "Opened" << std::endl;
 		item->Look();
 	}
 	else
-		cout << "It's not as if it's closed..." << endl;
+		std::cout << "It's not as if it's closed..." << std::endl;
 }
 
-void Player::Read(const vector<string>& args)
+void Player::Read(const std::vector<std::string>& args)
 {
 	if (args.size() == 1)
 	{
-		cout << "I don't know what to read!" << endl;
+		std::cout << "I don't know what to read!" << std::endl;
 		return;
 	}
-	Note* n = (Note*) this->Find(args[1], NOTE);
-	if (n == NULL)
+	Note* n = (Note*) this->Find(args[1], EntityType::NOTE);
+	if (n == nullptr)
 	{
-		cout << "I don't own anything by that name that can be read" << endl;
+		std::cout << "I don't own anything by that name that can be read" << std::endl;
 		return;
 	}
 	n->Read();
 }
 
-void Player::Use(const vector<string>& args) {
+void Player::Use(const std::vector<std::string>& args) {
 	if (args.size() == 1)
 	{
-		cout << "I don't know what I should use" << endl;
+		std::cout << "I don't know what I should use" << std::endl;
 		return;
 	}
-	Entity* target = this->Find(args[1], ITEM);
-	if (target == NULL)
+	Entity* target = this->Find(args[1], EntityType::ITEM);
+	if (target == nullptr)
 	{
-		target = this->Find(args[1], NOTE);
-		if (target == NULL)
+		target = this->Find(args[1], EntityType::NOTE);
+		if (target == nullptr)
 		{
-			cout << "I can't use something I don't find in my inventory" << endl;
+			std::cout << "I can't use something I don't find in my inventory" << std::endl;
 			return;
 		}
 		else
 		{
-			cout << "Maybe I should not try to use it, but to read it" << endl;
+			std::cout << "Maybe I should not try to use it, but to read it" << std::endl;
 			return;
 		}
 	}
 	if (AreEqual(target->name, "torch"))
 	{
-		cout << "Litting the torch!" << endl;
+		std::cout << "Litting the torch!" << std::endl;
 		if (AreEqual(parent->name,"Cave"))
 		{
 			Room* cave = (Room*)parent;
 			if (!cave->IsIlluminated())
 			{
-				cout << "You lit the cave!" << endl << endl;
+				std::cout << "You lit the cave!" << std::endl << std::endl;
 				cave->description = "This looks like a thousand year old cave, not known to man, waiting here to be discovered.\nHowever, you see some evidences that people have been here: footsteps in the mud, some abandoned flares...\nDid you arrive too late..?";
 				cave->SetIllumination(true);
 				parent->Look();
@@ -291,77 +292,77 @@ void Player::Use(const vector<string>& args) {
 	}
 	if (AreEqual(target->name, "sword"))
 	{
-		cout << "I am no skilled swordsman, but maybe I can win a duel with my wit..." << endl;
+		std::cout << "I am no skilled swordsman, but maybe I can win a duel with my wit..." << std::endl;
 		return;
 	}
 	if (AreEqual(target->name, "peanuts"))
 	{
-		cout << "I am not an elephant, and I am not really hungry... Maybe later!" << endl;
+		std::cout << "I am not an elephant, and I am not really hungry... Maybe later!" << std::endl;
 		return;
 	}
-	if (target != NULL)
-		cout << "I don't know how society expects me to use it!" << endl;
+	if (target != nullptr)
+		std::cout << "I don't know how society expects me to use it!" << std::endl;
 	else
-		cout << "I understood up to the use part" << endl;
+		std::cout << "I understood up to the use part" << std::endl;
 }
 
-void Player::Talk(const vector<string>& args) const {
+void Player::Talk(const std::vector<std::string>& args) const {
 	if (!CanSee())
 	{
-		cout << "It's too dark in here!" << endl;
+		std::cout << "It's too dark in here!" << std::endl;
 		return;
 	}
 	if (args.size() == 1)
 	{
-		cout << "I need somebody to talk to!" << endl;
+		std::cout << "I need somebody to talk to!" << std::endl;
 		return;
 	}
-	Character* interlocutor = (Character*)GetRoom()->Find(args[1], CHARACTER);
-	if (interlocutor == NULL)
+	Character* interlocutor = (Character*)GetRoom()->Find(args[1], EntityType::CHARACTER);
+	if (interlocutor == nullptr)
 	{
-		cout << "I don't know who that is" << endl;
+		std::cout << "I don't know who that is" << std::endl;
 		return;
 	}
 	interlocutor->Talk();
 }
 
-void Player::StartDuel(const vector<string>& args) {
+void Player::StartDuel(const std::vector<std::string>& args) {
 	if (args.size() == 1)
 	{
-		cout << "I'd love to duel somebody, but I need to know who!" << endl;
+		std::cout << "I'd love to duel somebody, but I need to know who!" << std::endl;
 		return;
 	}
-	Character* duelist = (Character*)GetRoom()->Find(args[1], CHARACTER);
-	if (duelist == NULL)
+	Character* duelist = (Character*)GetRoom()->Find(args[1], EntityType::CHARACTER);
+	if (duelist == nullptr)
 	{
-		cout << "Yay! I'm gonna duel with somebody who isn't even here!" << endl;
+		std::cout << "Yay! I'm gonna duel with somebody who isn't even here!" << std::endl;
 		return;
 	}
-	if (this->Find("sword", ITEM) == NULL)
+	if (this->Find("sword", EntityType::ITEM) == nullptr)
 	{
-		cout << "You can't insult duel anybody without a proper sword" << endl;
+		std::cout << "You can't insult duel anybody without a proper sword" << std::endl;
 		return;
 	}
-	if (duelist->beaten == true)
+	if (duelist->wasBeaten() == true)
 	{
-		cout << "I don't want to duel again someone I've already beaten" << endl;
+		std::cout << "I don't want to duel again someone I've already beaten" << std::endl;
 		return;
 	}
 	duel = new Duel(this, duelist);
 }
 
 void Player::EnterDuel() {
-	cout << "**  ENTERING DUEL MODE  **" << endl;
-	in_a_duel = true;
+	std::cout << "**  ENTERING DUEL MODE  **" << std::endl;
+	_inDuel = true;
 }
 
 void Player::ExitDuel() {
-	in_a_duel = false;
-	cout << "**  EXITING DUEL MODE  **" << endl;
+	_inDuel = false;
+	std::cout << "**  EXITING DUEL MODE  **" << std::endl;
 	delete duel;
 }
 
-bool Player::DuelAction(const vector<string>& args) const {
+bool Player::DuelAction(const std::vector<std::string>& args) const {
 	return duel->ChooseOption(args);
 }
 

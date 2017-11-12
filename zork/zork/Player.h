@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include <iostream>
+#include <string>
 
 class Room;
 class Link;
@@ -12,26 +13,25 @@ class Duel;
 class Player : public Character
 {
 public:
-	Player(const char* name, const char* description, Room* parent);
+	Player(const std::string& name, const std::string& description, Room* parent);
 	~Player();
 
-	void Look(const vector<string>& args) const;
-	void Go(const vector<string>& args);
-	void Take(const vector<string>& args);
-	void Drop(const vector<string>& args); 
+	void Look(const std::vector<std::string>& args) const;
+	void Go(const std::vector<std::string>& args);
+	void Take(const std::vector<std::string>& args);
+	void Drop(const std::vector<std::string>& args);
 	void Inventory() const;
-	void Open(const vector<string>& args);
-	void Read(const vector<string>& args);
-	void Use(const vector<string>& args);
-	void Talk(const vector<string>& args) const;
-
+	void Open(const std::vector<std::string>& args);
+	void Read(const std::vector<std::string>& args);
+	void Use(const std::vector<std::string>& args);
+	void Talk(const std::vector<std::string>& args) const;
 
 	bool CanSee() const;
 
-	void StartDuel(const vector<string>& args);
+	void StartDuel(const std::vector<std::string>& args);
 	void EnterDuel();
 	void ExitDuel();
-	bool DuelAction(const vector<string>& args) const;
+	bool DuelAction(const std::vector<std::string>& args) const;
 
 
 private: 

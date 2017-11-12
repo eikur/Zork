@@ -1,9 +1,8 @@
 #include "Note.h"
 
-Note::Note(const char* name, const char* description, Entity* parent, bool takeable, string text) :
-	Item(name, description, parent, takeable, false, false), text(text) 
+Note::Note(const std::string& name, const std::string& description, Entity* parent, bool takeable, const std::string& text) :
+	Item(name, description, parent, takeable, false, false, EntityType::NOTE), text(text)
 {
-	type = NOTE;
 }
 
 Note::~Note()
@@ -11,5 +10,5 @@ Note::~Note()
 
 void Note::Read() const
 {
-	cout << text << endl;
+	std::cout << text << std::endl;
 }

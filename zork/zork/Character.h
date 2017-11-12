@@ -2,14 +2,12 @@
 #define CHARACTER_H
 
 #include "Entity.h"
+#include <string>
 class Room;
-
-using namespace std;
 
 class Character : public Entity {
 public:
-	Character(const char* name, const char* description, Room* parent );
-	Character(const char* name, const char* description, Room* parent, const char* talk_line);
+	Character(const std::string& name, const std::string& description, Room* parent, const std::string& talkLine = "", EntityType type = EntityType::CHARACTER);
 	~Character();
 
 	virtual void Talk() const;
@@ -18,12 +16,16 @@ public:
 	bool IsDueling() const;
 	void GiveDuelPrize(Entity* destination);
 
-public:
-	bool in_a_duel;
-	bool beaten;
+	bool wasBeaten() const;
+	void setBeaten(bool beaten);
+
+
+protected:
+	bool _inDuel;
+	bool _beaten;
 
 private: 
-	string talk_line = "";
+	std::string _talkLine = "";
 };
 
 

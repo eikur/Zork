@@ -4,12 +4,10 @@
 #include "Entity.h"
 #include "Room.h"
 
-using namespace std; 
-
 class Item : public Entity
 {
 public:
-	Item(const char* name, const char* description, Entity* parent, bool takeable, bool storage, bool locked);
+	Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked, EntityType type = EntityType::ITEM);
 	~Item();
 
 	void Look() const;

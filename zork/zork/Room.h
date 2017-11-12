@@ -5,17 +5,14 @@
 #include "Entity.h"
 class Link;
 
-using namespace std;
-
 class Room : public Entity
 {
 public:
-	Room(const char* name, const char* description);
-	Room(const char* name, const char* description, bool illuminated);
+	Room(const std::string& name, const std::string& description, bool illuminated = true);
 	~Room();
 
 	void Look() const;
-	Link* GetLinkTo(const string& direction) const;
+	Link* GetLinkTo(const std::string& direction) const;
 
 	bool IsIlluminated() const;
 	void SetIllumination(bool new_illumination);

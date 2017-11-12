@@ -1,6 +1,7 @@
+#include <algorithm>
 #include "Input.h"
 
-void GetTokens(const string& line, vector<string>& args)
+void GetTokens(const std::string& line, std::vector<std::string>& args)
 {
 	const char* line_c = line.c_str();
 	const int length = line.length();
@@ -11,21 +12,14 @@ void GetTokens(const string& line, vector<string>& args)
 		const int start = i;
 		while (line_c[i] != ' ' && i < length)	{ ++i; }
 		if ( i > start)
-			args.push_back(string(line_c, start, i - start));
+			args.push_back(std::string(line_c, start, i - start));
 		++i;
 	} while (i < length);
 }
 
-bool AreEqual(const string& token, const char* compare_to) {
-	if (token.compare(compare_to) == 0)
-		return true;
-	else
-		return false;
-}
-
-bool AreEqual(const string& token, const string& compare_to) {
-	if (token.compare(compare_to) == 0)
-		return true;
-	else
-		return false;
+bool AreEqual(const std::string& token, const std::string& compare_to) 
+{
+	std::string lowerToken = token;
+	std::transform(lowerToken.begin(), lowerToken.end(), lowerToken.begin(), ::tolower);
+	return lowerToken == compare_to;
 }

@@ -10,9 +10,7 @@
 #include "Player.h"
 #include "Interaction.h"
 
-using namespace std;
-
-enum PlayerTurn {
+enum class PlayerTurn {
 	OFFENSE,
 	DEFENSE
 };
@@ -34,8 +32,8 @@ public:
 	void Surrender() const;
 	void Win() const;
 
-	bool ChooseOption(const vector<string>& args);
-	Interaction* CheckOption(const string& code, const PlayerTurn trn) const;
+	bool ChooseOption(const std::vector<std::string>& args);
+	Interaction* CheckOption(const std::string& code, const PlayerTurn trn) const;
 	bool CheckCorrectComeback() const;
 
 	Interaction* AdversaryFindComeback() const;
@@ -46,21 +44,21 @@ public:
 	Player* player;
 	Character* adversary;
 	
-	list<Interaction*> attacks;
-	list<Interaction*> player_comebacks;
-	list<Interaction*> adversary_comebacks;
+	std::list<Interaction*> attacks;
+	std::list<Interaction*> player_comebacks;
+	std::list<Interaction*> adversary_comebacks;
 	int adversary_comebacks_max = 6;
 	int adversary_comebacks_cur = 0;
 
 	Interaction* inter[16];
-	vector<Interaction*> randomizer;
+	std::vector<Interaction*> randomizer;
 
 	Interaction* player_choice;
 	Interaction* adversary_choice;
 	
 	int player_wins;
 	int adversary_wins;
-	enum PlayerTurn turn;
+	PlayerTurn turn;
 
 };
 

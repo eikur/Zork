@@ -1,4 +1,4 @@
-	#ifndef ENTITY_H
+#ifndef ENTITY_H
 #define ENTITY_H
 
 #include <list>
@@ -8,9 +8,7 @@
 
 #include "Input.h"
 
-using namespace std;
-
-enum EntityType 
+enum class EntityType 
 {
 	ENTITY,
 	ROOM,
@@ -21,11 +19,10 @@ enum EntityType
 	NOTE
 };
 
-
 class Entity {
 
 public:
-	Entity(const char* name, const char* description, Entity* parent = NULL);
+	Entity(const std::string& name, const std::string& description, EntityType type = EntityType::ENTITY, Entity* parent = nullptr);
 	virtual ~Entity();
 
 	virtual void Look() const;
@@ -33,14 +30,16 @@ public:
 
 	void SetNewParent(Entity* new_parent);
 
-	Entity* Find(const string& search_name, EntityType search_type);
-	
-	string name;
-	string description;
-	Entity* parent;
-	list<Entity*> children;
-	EntityType type;
-		
+	Entity* Find(const std::string& search_name, EntityType search_type);
+	EntityType getType() const;
+
+	std::string name = "no name";
+	std::string description = "no description";
+	Entity* parent = nullptr;
+	std::list<Entity*> children;
+
+private:
+	EntityType _type = EntityType::ENTITY;
 };
 #endif // ENTITY_H
 

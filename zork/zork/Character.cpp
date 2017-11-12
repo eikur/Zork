@@ -1,38 +1,42 @@
 #include "Character.h"
 
-Character::Character(const char* name, const char* description, Room* parent) : Entity(name, description,(Entity*) parent)
+Character::Character(const std::string& name, const std::string& description, Room* parent, const std::string& talkLine, EntityType type) 
+	: Entity(name, description, type, (Entity*)parent), _talkLine(talkLine)
 {
-	type = CHARACTER;
-	beaten = false;
-}
-
-Character::Character(const char* name, const char* description, Room* parent, const char* talk_line) : Entity(name, description, (Entity*)parent), talk_line(talk_line)
-{
-	type = CHARACTER;
 }
 
 Character::~Character(){}
 
 void Character::Talk() const {
-	if (!AreEqual(talk_line, ""))
+	if (!AreEqual(_talkLine, ""))
 	{
-		cout << name << " says: " << endl;
-		cout << " " << talk_line << endl;
+		std::cout << name << " says: " << std::endl;
+		std::cout << " " << _talkLine << std::endl;
 	}
 }
 
 bool Character::IsDueling() const {
-	return in_a_duel;
+	return _inDuel;
 }
 void Character::GiveDuelPrize(Entity* destination)
 {
-	Entity* prize = this->Find("prize", ITEM);
+	Entity* prize = this->Find("prize", EntityType::ITEM);
 	prize->name = "gem";
 	prize->SetNewParent(destination);
-	cout << "You obtained: " << prize->name << endl;
+	std::cout << "You obtained: " << prize->name << std::endl;
 	prize->Look();
 }
 Room* Character::GetRoom() const {
 	return (Room*)parent;
+}
+
+bool Character::wasBeaten() const
+{
+	return _beaten;
+}
+
+void Character::setBeaten(bool beaten)
+{
+	_beaten = beaten;
 }
 

@@ -5,11 +5,8 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
+void GetTokens(const std::string& line, std::vector<std::string>& args);
 
-void GetTokens(const string& line, vector<string>& args);
-
-bool AreEqual(const string& token, const char* compare_to);
-bool AreEqual(const string& token, const string& compare_to);
+bool AreEqual(const std::string& token, const std::string& compare_to);
 
 #endif // INPUT_H
