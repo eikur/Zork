@@ -1,7 +1,7 @@
 #include "Item.h"
 
-Item::Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked, EntityType type) 
-	: Entity(name, description, type, parent), _takeable(takeable), _storage(storage), _locked(locked)
+Item::Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked) 
+	: Entity(name, description, EntityType::ITEM, parent), _takeable(takeable), _storage(storage), _locked(locked)
 {
 }
 

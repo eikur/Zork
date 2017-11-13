@@ -1,13 +1,12 @@
-#ifndef ITEM_H
-#define ITEM_H
+#pragma once
 
 #include "Entity.h"
-#include "Room.h"
+
 
 class Item : public Entity
 {
 public:
-	Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked, EntityType type = EntityType::ITEM);
+	Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked);
 	~Item();
 
 	void Look() const;
@@ -16,9 +15,11 @@ public:
 	bool IsLocked() const;
 	void Unlock();
 
+	virtual void Use() const {}
+	virtual void Read() const {}
+
 private:
 	bool _takeable = false;
 	bool _storage = false;
 	bool _locked = false;
 };
-#endif

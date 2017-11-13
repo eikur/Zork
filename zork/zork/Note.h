@@ -9,7 +9,8 @@ public:
 	Note(const std::string& name, const std::string& description, Entity* parent, bool takeable, const std::string& text);
 	~Note();
 
-	void Read() const;
+	void Use() const override { Read(); }
+	void Read() const override;
 
 private:
 	std::string text;

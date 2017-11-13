@@ -28,7 +28,7 @@ void Player::Look(const std::vector<std::string>& args) const {
 			{
 				for (std::list<Entity*>::const_iterator it = parent->children.cbegin(); it != parent->children.cend(); ++it)
 				{
-					if (AreEqual((*it)->name, args[1]))
+					if (AreEqual(args[1], (*it)->name))
 					{
 						(*it)->Look();
 						return;
@@ -40,7 +40,7 @@ void Player::Look(const std::vector<std::string>& args) const {
 						{
 							for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 							{
-								if (AreEqual((*it2)->name, args[1])) {
+								if (AreEqual(args[1], (*it2)->name)) {
 									(*it2)->Look();
 									return;
 								}
@@ -49,31 +49,13 @@ void Player::Look(const std::vector<std::string>& args) const {
 					}
 				}
 			}
-			for (std::list<Entity*>::const_iterator it = this->children.cbegin(); it != this->children.cend(); ++it)
-			{
-				if (AreEqual((*it)->name, args[1]))
-				{
-					(*it)->Look();
-					return;
-				}
-				Item* item = (Item*)(*it);
-				if (item->IsStorage() && item->children.size() >0 )
-				{
-					for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
-					{
-						if (AreEqual((*it2)->name, args[1])) {
-							(*it2)->Look();
-							return;
-						}
-					}
-				}
-			}
 			std::cout << "I can't find That" << std::endl;
-
 		}
 	}
 	else
-		parent->Look();
+	{
+		GetRoom()->Look();
+	}
 }
 
 void Player::Go(const std::vector<std::string>& args) {
@@ -112,10 +94,8 @@ void Player::Take(const std::vector<std::string>& args)
 	}
 	Entity* target = GetRoom()->Find(args[1], EntityType::ITEM);
 	if (target == nullptr)
-		target = GetRoom()->Find(args[1], EntityType::NOTE);
-	if (target == nullptr)
 	{
-		std::cout << "I can't see any item by that name in my surroundings." << std::endl;
+		std::cout << "I can't see any item like that in my surroundings." << std::endl;
 		return;
 	}
 
@@ -150,8 +130,6 @@ void Player::Drop(const std::vector<std::string>& args)
 		return;
 	}
 	Entity* drop = this->Find(args[1], EntityType::ITEM);
-	if (drop == nullptr)
-		drop = this->Find(args[1], EntityType::NOTE);
 	if (drop == nullptr)
 	{
 		std::cout << "I can't drop something I don't own!" << std::endl;
@@ -244,7 +222,7 @@ void Player::Read(const std::vector<std::string>& args)
 		std::cout << "I don't know what to read!" << std::endl;
 		return;
 	}
-	Note* n = (Note*) this->Find(args[1], EntityType::NOTE);
+	Note* n = (Note*) this->Find(args[1], EntityType::ITEM);
 	if (n == nullptr)
 	{
 		std::cout << "I don't own anything by that name that can be read" << std::endl;
@@ -259,21 +237,15 @@ void Player::Use(const std::vector<std::string>& args) {
 		std::cout << "I don't know what I should use" << std::endl;
 		return;
 	}
-	Entity* target = this->Find(args[1], EntityType::ITEM);
+
+	Item* target = static_cast<Item*>(this->Find(args[1], EntityType::ITEM));
+	
 	if (target == nullptr)
 	{
-		target = this->Find(args[1], EntityType::NOTE);
-		if (target == nullptr)
-		{
-			std::cout << "I can't use something I don't find in my inventory" << std::endl;
-			return;
-		}
-		else
-		{
-			std::cout << "Maybe I should not try to use it, but to read it" << std::endl;
-			return;
-		}
+		std::cout << "I can't use something I don't find in my inventory" << std::endl;
+		return;
 	}
+
 	if (AreEqual(target->name, "torch"))
 	{
 		std::cout << "Litting the torch!" << std::endl;
@@ -301,9 +273,14 @@ void Player::Use(const std::vector<std::string>& args) {
 		return;
 	}
 	if (target != nullptr)
+	{
+		target->Use();
 		std::cout << "I don't know how society expects me to use it!" << std::endl;
+	}
 	else
+	{
 		std::cout << "I understood up to the use part" << std::endl;
+	}
 }
 
 void Player::Talk(const std::vector<std::string>& args) const {

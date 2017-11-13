@@ -17,9 +17,11 @@ void GetTokens(const std::string& line, std::vector<std::string>& args)
 	} while (i < length);
 }
 
-bool AreEqual(const std::string& token, const std::string& compare_to) 
+bool AreEqual(const std::string& token, const std::string& input) 
 {
 	std::string lowerToken = token;
+	std::string lowerInput = input;
 	std::transform(lowerToken.begin(), lowerToken.end(), lowerToken.begin(), ::tolower);
-	return lowerToken == compare_to;
+	std::transform(lowerInput.begin(), lowerInput.end(), lowerInput.begin(), ::tolower);
+	return lowerToken == lowerInput;
 }

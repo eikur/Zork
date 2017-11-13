@@ -44,15 +44,6 @@ void Room::Look() const
 							cout << "  *" << (*it2)->name << endl;
 					}
 				}
-
-			}
-		}
-
-		for (list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
-		{
-			if ((*it)->getType() == EntityType::NOTE)
-			{
-				cout << "There is a note here: " << (*it)->name << endl;
 			}
 		}
 	}

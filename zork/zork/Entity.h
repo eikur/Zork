@@ -15,8 +15,7 @@ enum class EntityType
 	LINK,
 	CHARACTER,
 	PLAYER,
-	ITEM,
-	NOTE
+	ITEM
 };
 
 class Entity {
