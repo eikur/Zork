@@ -19,7 +19,6 @@ public:
 	bool wasBeaten() const;
 	void setBeaten(bool beaten);
 
-
 protected:
 	bool _inDuel;
 	bool _beaten;

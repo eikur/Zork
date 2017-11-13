@@ -12,13 +12,13 @@ public:
 
 	void Look() const;
 	bool IsTakeable() const;
-	bool HasStorage() const;
+	bool IsStorage() const;
 	bool IsLocked() const;
 	void Unlock();
 
 private:
-	bool takeable;
-	bool storage;
-	bool locked;
+	bool _takeable = false;
+	bool _storage = false;
+	bool _locked = false;
 };
 #endif

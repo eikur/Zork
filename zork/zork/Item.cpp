@@ -1,7 +1,7 @@
 #include "Item.h"
 
 Item::Item(const std::string& name, const std::string& description, Entity* parent, bool takeable, bool storage, bool locked, EntityType type) 
-	: Entity(name, description, type, parent), takeable(takeable), storage(storage), locked(locked)
+	: Entity(name, description, type, parent), _takeable(takeable), _storage(storage), _locked(locked)
 {
 }
 
@@ -17,7 +17,7 @@ void Item::Look() const
 	{
 		std::cout << " It's closed!" << std::endl;
 	}
-	else if (HasStorage())
+	else if (IsStorage())
 	{
 		if (children.size() == 0)
 			std::cout << " It's empty!" << std::endl;
@@ -32,18 +32,18 @@ void Item::Look() const
 
 bool Item::IsTakeable() const
 {
-	return takeable;
+	return _takeable;
 }
-bool Item::HasStorage() const 
+bool Item::IsStorage() const 
 {
-	return storage;
+	return _storage;
 }
 
 bool Item::IsLocked() const 
 {
-	return locked;
+	return _locked;
 }
 
 void Item::Unlock() {
-	locked = false;
+	_locked = false;
 }

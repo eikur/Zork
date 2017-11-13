@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "Room.h"
+#include <memory>
 
 Character::Character(const std::string& name, const std::string& description, Room* parent, const std::string& talkLine, EntityType type) 
 	: Entity(name, description, type, (Entity*)parent), _talkLine(talkLine)
@@ -7,7 +9,8 @@ Character::Character(const std::string& name, const std::string& description, Ro
 
 Character::~Character(){}
 
-void Character::Talk() const {
+void Character::Talk() const 
+{
 	if (!AreEqual(_talkLine, ""))
 	{
 		std::cout << name << " says: " << std::endl;
@@ -15,9 +18,11 @@ void Character::Talk() const {
 	}
 }
 
-bool Character::IsDueling() const {
+bool Character::IsDueling() const
+{
 	return _inDuel;
 }
+
 void Character::GiveDuelPrize(Entity* destination)
 {
 	Entity* prize = this->Find("prize", EntityType::ITEM);
@@ -26,8 +31,10 @@ void Character::GiveDuelPrize(Entity* destination)
 	std::cout << "You obtained: " << prize->name << std::endl;
 	prize->Look();
 }
-Room* Character::GetRoom() const {
-	return (Room*)parent;
+
+Room* Character::GetRoom() const 
+{
+	return static_cast<Room*>(parent);
 }
 
 bool Character::wasBeaten() const

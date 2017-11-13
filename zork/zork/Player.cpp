@@ -36,7 +36,7 @@ void Player::Look(const std::vector<std::string>& args) const {
 					if ((*it)->getType() == EntityType::ITEM)
 					{
 						Item* item = (Item*)(*it);
-						if (item->HasStorage() && !item->IsLocked() && item->children.size() > 0)
+						if (item->IsStorage() && !item->IsLocked() && item->children.size() > 0)
 						{
 							for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 							{
@@ -57,7 +57,7 @@ void Player::Look(const std::vector<std::string>& args) const {
 					return;
 				}
 				Item* item = (Item*)(*it);
-				if (item->HasStorage() && item->children.size() >0 )
+				if (item->IsStorage() && item->children.size() >0 )
 				{
 					for (std::list<Entity*>::const_iterator it2 = item->children.cbegin(); it2 != item->children.cend(); ++it2)
 					{
@@ -174,7 +174,7 @@ void Player::Drop(const std::vector<std::string>& args)
 				return;
 			}
 		}
-		if (destination->HasStorage() && !destination->IsLocked())
+		if (destination->IsStorage() && !destination->IsLocked())
 		{
 			drop->SetNewParent(destination);
 			std::cout << "Dropped " << drop->name << " into " << destination->name << std::endl;
