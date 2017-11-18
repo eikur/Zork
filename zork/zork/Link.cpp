@@ -16,10 +16,7 @@ std::string Link::GetDirectionFrom(const Room* starting_point) const
 		return destination_to_origin;
 }
 
-Room* Link::GetDestinationFrom(const Room* starting_point) 
+Room* Link::GetDestinationFrom(const Room* starting_point) const 
 {
-	if (starting_point == parent)
-		return destination;
-	else
-		return (Room*) parent;
+	return (starting_point == parent) ? destination : static_cast<Room*>(parent);
 }

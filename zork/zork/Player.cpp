@@ -1,10 +1,10 @@
-#include "Player.h"
-#include "Room.h"
+#include "Duel.h"
+#include "Entity.h"
 #include "Link.h"
 #include "Item.h"
-#include "Entity.h"
 #include "Note.h"
-#include "Duel.h"
+#include "Player.h"
+#include "Room.h"
 
 Player::Player(const std::string& name, const std::string& description, Room* parent)
 	: Character(name, description, parent, "", EntityType::PLAYER)
@@ -64,7 +64,7 @@ void Player::Go(const std::vector<std::string>& args) {
 		std::cout << "If only I could know the direction... (north/south/east/west/up/down)" << std::endl;
 		return;
 	}
-	Link* link = GetRoom()->GetLinkTo(args[1]);
+	const Link* link = GetRoom()->GetLinkTo(args[1]);
 	if (link == nullptr)
 	{
 		if(AreEqual(args[1],"north") || AreEqual(args[1],"south") || AreEqual(args[1],"west") || AreEqual(args[1], "east") || AreEqual(args[1], "up") || AreEqual(args[1], "down"))
@@ -75,7 +75,7 @@ void Player::Go(const std::vector<std::string>& args) {
 		std::cout << "That is not a direction I recognize... (north/south/east/west/up/down)" << std::endl;
 		return;
 	}
-	SetNewParent(link->GetDestinationFrom((Room*)parent));
+	SetNewParent(link->GetDestinationFrom(GetRoom()));
 	parent->Look();
 
 }
@@ -104,7 +104,7 @@ void Player::Take(const std::vector<std::string>& args)
 		Item* container = (Item*)target->parent;
 		if (container->IsLocked())
 		{
-			std::cout << "I can't see any item by that name" << std::endl;
+			std::cout << "I can't find any item by that name" << std::endl;
 			return;
 		}
 	}
@@ -114,7 +114,9 @@ void Player::Take(const std::vector<std::string>& args)
 		std::cout << "Taken" << std::endl;
 	}
 	else
+	{
 		std::cout << "This is an item that I cannot take with me" << std::endl;
+	}
 }
 
 void Player::Drop(const std::vector<std::string>& args)
@@ -129,7 +131,7 @@ void Player::Drop(const std::vector<std::string>& args)
 		std::cout << "I don't know what to drop" << std::endl;
 		return;
 	}
-	Entity* drop = this->Find(args[1], EntityType::ITEM);
+	Item* drop = static_cast<Item*>(Find(args[1], EntityType::ITEM));
 	if (drop == nullptr)
 	{
 		std::cout << "I can't drop something I don't own!" << std::endl;
@@ -137,16 +139,16 @@ void Player::Drop(const std::vector<std::string>& args)
 	}
 	if (args.size() == 2)
 	{
-		drop->SetNewParent(this->parent);
+		drop->SetNewParent(GetRoom());
 		std::cout << "Dropped" << std::endl;
 	}
 	else if (args.size() == 4)
 	{
-		Item* destination = (Item*) this->Find(args[3], EntityType::ITEM);
-		if (destination == nullptr || destination == (Item*)drop)
+		Item* destination = static_cast<Item*>(Find(args[3], EntityType::ITEM));
+		if (destination == nullptr || destination == drop)
 		{
-			destination = (Item*)GetRoom()->Find(args[3], EntityType::ITEM);
-			if (destination == nullptr || destination == (Item*) drop)
+			destination = static_cast<Item*>(GetRoom()->Find(args[3], EntityType::ITEM));
+			if (destination == nullptr || destination == drop)
 			{
 				std::cout << "Are you serious?" << std::endl;
 				return;
@@ -176,14 +178,16 @@ void Player::Inventory() const
 		return;
 	}
 	std::cout << "I own:" << std::endl;
-	for (std::list<Entity*>::const_iterator it = children.cbegin(); it != children.cend(); ++it)
+	for (const auto& it : children)
 	{
-		std::cout << " > " << (*it)->name << std::endl;
-		if ((*it)->children.size() > 0)
+		std::cout << " > " << (*it).name << std::endl;
+		if ((*it).children.size() > 0)
 		{
 			std::cout << " It contains: " << std::endl;
-			for (std::list<Entity*>::const_iterator it2 = (*it)->children.cbegin(); it2 != (*it)->children.cend(); ++it2)
-				std::cout << "  - " << (*it2)->name << std::endl;
+			for (const auto& it2 : (*it).children)
+			{
+				std::cout << "  - " << (*it2).name << std::endl;
+			}
 		}
 	}
 }
@@ -199,7 +203,7 @@ void Player::Open(const std::vector<std::string>& args) {
 		std::cout << "I don't know what to open!" << std::endl;
 		return;
 	}
-	Item* item = (Item*)GetRoom()->Find(args[1], EntityType::ITEM);
+	Item* item = static_cast<Item*>(GetRoom()->Find(args[1], EntityType::ITEM));
 	if (item == nullptr)
 	{
 		std::cout << "I can't see any item by that name" << std::endl;
@@ -212,17 +216,19 @@ void Player::Open(const std::vector<std::string>& args) {
 		item->Look();
 	}
 	else
-		std::cout << "It's not as if it's closed..." << std::endl;
+	{
+		std::cout << "It's already open!" << std::endl;
+	}
 }
 
-void Player::Read(const std::vector<std::string>& args)
+void Player::Read(const std::vector<std::string>& args) const
 {
 	if (args.size() == 1)
 	{
 		std::cout << "I don't know what to read!" << std::endl;
 		return;
 	}
-	Note* n = (Note*) this->Find(args[1], EntityType::ITEM);
+	Note* n = static_cast<Note*>(Find(args[1], EntityType::ITEM));
 	if (n == nullptr)
 	{
 		std::cout << "I don't own anything by that name that can be read" << std::endl;
@@ -238,7 +244,7 @@ void Player::Use(const std::vector<std::string>& args) {
 		return;
 	}
 
-	Item* target = static_cast<Item*>(this->Find(args[1], EntityType::ITEM));
+	Item* target = static_cast<Item*>(Find(args[1], EntityType::ITEM));
 	
 	if (target == nullptr)
 	{
@@ -249,15 +255,15 @@ void Player::Use(const std::vector<std::string>& args) {
 	if (AreEqual(target->name, "torch"))
 	{
 		std::cout << "Litting the torch!" << std::endl;
-		if (AreEqual(parent->name,"Cave"))
+		if (AreEqual(GetRoom()->name,"Cave"))
 		{
-			Room* cave = (Room*)parent;
-			if (!cave->IsIlluminated())
+			Room& cave = *GetRoom();
+			if (!cave.IsIlluminated())
 			{
 				std::cout << "You lit the cave!" << std::endl << std::endl;
-				cave->description = "This looks like a thousand year old cave, not known to man, waiting here to be discovered.\nHowever, you see some evidences that people have been here: footsteps in the mud, some abandoned flares...\nDid you arrive too late..?";
-				cave->SetIllumination(true);
-				parent->Look();
+				cave.description = "This looks like a thousand year old cave, not known to man, waiting here to be discovered.\nHowever, you see some evidences that people have been here: footsteps in the mud, some abandoned flares...\nDid you arrive too late..?";
+				cave.SetIllumination(true);
+				cave.Look();
 			}
 		}
 		return;
@@ -294,7 +300,7 @@ void Player::Talk(const std::vector<std::string>& args) const {
 		std::cout << "I need somebody to talk to!" << std::endl;
 		return;
 	}
-	Character* interlocutor = (Character*)GetRoom()->Find(args[1], EntityType::CHARACTER);
+	const Character* interlocutor = static_cast<Character*>(GetRoom()->Find(args[1], EntityType::CHARACTER));
 	if (interlocutor == nullptr)
 	{
 		std::cout << "I don't know who that is" << std::endl;
@@ -309,7 +315,7 @@ void Player::StartDuel(const std::vector<std::string>& args) {
 		std::cout << "I'd love to duel somebody, but I need to know who!" << std::endl;
 		return;
 	}
-	Character* duelist = (Character*)GetRoom()->Find(args[1], EntityType::CHARACTER);
+	Character* duelist = static_cast<Character*>(GetRoom()->Find(args[1], EntityType::CHARACTER));
 	if (duelist == nullptr)
 	{
 		std::cout << "Yay! I'm gonna duel with somebody who isn't even here!" << std::endl;
@@ -325,7 +331,7 @@ void Player::StartDuel(const std::vector<std::string>& args) {
 		std::cout << "I don't want to duel again someone I've already beaten" << std::endl;
 		return;
 	}
-	duel = new Duel(this, duelist);
+	_duel = std::make_unique<Duel>(*this, *duelist);
 }
 
 void Player::EnterDuel() {
@@ -335,12 +341,12 @@ void Player::EnterDuel() {
 
 void Player::ExitDuel() {
 	_inDuel = false;
+	_duel.release();
 	std::cout << "**  EXITING DUEL MODE  **" << std::endl;
-	delete duel;
 }
 
 bool Player::DuelAction(const std::vector<std::string>& args) const {
-	return duel->ChooseOption(args);
+	return _duel.get()->ChooseOption(args);
 }
 
 bool Player::CanSee() const {

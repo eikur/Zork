@@ -1,9 +1,9 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include "Character.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 class Room;
 class Link;
@@ -22,7 +22,7 @@ public:
 	void Drop(const std::vector<std::string>& args);
 	void Inventory() const;
 	void Open(const std::vector<std::string>& args);
-	void Read(const std::vector<std::string>& args);
+	void Read(const std::vector<std::string>& args) const;
 	void Use(const std::vector<std::string>& args);
 	void Talk(const std::vector<std::string>& args) const;
 
@@ -33,10 +33,6 @@ public:
 	void ExitDuel();
 	bool DuelAction(const std::vector<std::string>& args) const;
 
-
 private: 
-	Duel* duel;
-
+	std::unique_ptr<Duel> _duel;
 };
-
-#endif

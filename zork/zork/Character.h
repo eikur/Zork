@@ -14,7 +14,7 @@ public:
 	Room* GetRoom() const;
 
 	bool IsDueling() const;
-	void GiveDuelPrize(Entity* destination);
+	void GiveDuelPrize(Entity& destination);
 
 	bool wasBeaten() const;
 	void setBeaten(bool beaten);

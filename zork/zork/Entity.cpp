@@ -38,7 +38,7 @@ void Entity::SetNewParent(Entity* new_parent)
 		parent->children.push_back(this);
 }
 
-Entity * Entity::Find(const std::string& search_name, EntityType search_type)
+Entity * Entity::Find(const std::string& search_name, EntityType search_type) const
 {	
 	for (std::list<Entity*>::const_iterator it = children.begin(); it != children.end(); ++it)
 	{

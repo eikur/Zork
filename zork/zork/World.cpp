@@ -86,7 +86,7 @@ I hope you enjoy this game as much as I enjoyed doing it!\n\nJorge a.k.a. eikur\
 lands looking for a treasure, and they gone back with naught\nThere were also a few ones that were fool enough to duel with me, and they all failed.\n\
 I am the only rightful heir to the treasure that was found here, and I will only hand it to someone that beats me to a duel. Not that it can happen anytime soon.\n\n\
 If you feel like today's your lucky day, come and meet me. I'll be waiting.\nYou already know who I am, right?");
-	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);	
+	sword = new Item("sword", "This is a rusty sword, but it can come in handy for an insult duel", chest, true, false, false);
 
 	gem = new Item("prize", "This is the gem you came to this lost zone for! You can see how bright it is, you can make tons of money with it!", hermit, true, false, false);
 

@@ -20,7 +20,7 @@ class Duel
 {
 
 public:
-	Duel(Player* player, Character* adversary);
+	Duel(Player& player, Character& adversary);
 	~Duel();
 
 	void UpdateDuel();
@@ -41,8 +41,8 @@ public:
 
 	void DeleteAttackOption(Interaction* target);
 
-	Player* player;
-	Character* adversary;
+	Player& player;
+	Character& adversary;
 	
 	std::list<Interaction*> attacks;
 	std::list<Interaction*> player_comebacks;

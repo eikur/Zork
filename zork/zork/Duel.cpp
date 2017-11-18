@@ -1,6 +1,6 @@
 #include "Duel.h"
 
-Duel::Duel(Player* player, Character* adversary): player(player), adversary(adversary)
+Duel::Duel(Player& player, Character& adversary): player(player), adversary(adversary)
 {
 	inter[0] = new Interaction("farmer", "You fight like a dairy farmer", ATTACK, nullptr);
 	inter[1] = new Interaction("stand", "You will never stand a chance", ATTACK, nullptr);
@@ -50,7 +50,7 @@ Duel::Duel(Player* player, Character* adversary): player(player), adversary(adve
 
 	turn = PlayerTurn::OFFENSE;
 	player_wins = adversary_wins = 0;
-	player->EnterDuel();
+	player.EnterDuel();
 	PrintRemainingAttacks();
 }
 
@@ -95,7 +95,7 @@ void Duel::PrintPlayerComebacks()const {
 }
 void Duel::Surrender() const {
 	std::cout << "I surrendered the duel!!" << std::endl;
-	player->ExitDuel();
+	player.ExitDuel();
 }
 
 void Duel::UpdateDuel(){
@@ -105,7 +105,7 @@ void Duel::UpdateDuel(){
 		adversary_choice = AdversaryFindComeback();
 		if (adversary_choice == nullptr)
 		{
-			std::cout << adversary->name << " says:" << std::endl;
+			std::cout << adversary.name << " says:" << std::endl;
 			std::cout << "So's your mother!" << std::endl;
 			std::cout << std::endl << "** I won advantage! **" << std::endl << std::endl;
 			turn = PlayerTurn::OFFENSE;
@@ -113,7 +113,7 @@ void Duel::UpdateDuel(){
 		}
 		else
 		{
-			std::cout << adversary->name << " says: "  << std::endl;
+			std::cout << adversary.name << " says: "  << std::endl;
 			adversary_choice->Say(); 
 			std::cout << "** I lost advantage... **" << std::endl << std::endl;
 			turn = PlayerTurn::DEFENSE;
@@ -190,15 +190,15 @@ void Duel::DeleteAttackOption( Interaction* target)
 void Duel::PrepareNextRound() {
 	if (player_wins == 3)
 	{
-		std::cout << std::endl << "With my last move, I opened a hole in " << adversary->name << "'s defense" << std::endl;
+		std::cout << std::endl << "With my last move, I opened a hole in " << adversary.name << "'s defense" << std::endl;
 		std::cout << "There is simply no way anybody could retaliate from this position!" << std::endl;
-		std::cout << adversary->name << " surrenders! I've won!!" << std::endl;
+		std::cout << adversary.name << " surrenders! I've won!!" << std::endl;
 		Win();
 		return;
 	}
 	if (adversary_wins == 3)
 	{
-		std::cout << std::endl << "With " << adversary->name << "'s last move, my defense was broken" << std::endl;
+		std::cout << std::endl << "With " << adversary.name << "'s last move, my defense was broken" << std::endl;
 		std::cout << "There is no way I can retaliate from this position" << std::endl;
 		Surrender();
 		return;
@@ -211,7 +211,7 @@ void Duel::PrepareNextRound() {
 	else
 	{
 		adversary_choice = AdversaryChooseAttack();
-		std::cout << adversary->name << " says: " << std::endl;
+		std::cout << adversary.name << " says: " << std::endl;
 		adversary_choice->Say();
 		PrintPlayerComebacks();
 	}
@@ -219,7 +219,7 @@ void Duel::PrepareNextRound() {
 
 void Duel::Win() const
 {
-	adversary->GiveDuelPrize(player);
-	adversary->setBeaten(true);
-	player->ExitDuel();
+	adversary.GiveDuelPrize(player);
+	adversary.setBeaten(true);
+	player.ExitDuel();
 }

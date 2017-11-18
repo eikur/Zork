@@ -23,11 +23,11 @@ bool Character::IsDueling() const
 	return _inDuel;
 }
 
-void Character::GiveDuelPrize(Entity* destination)
+void Character::GiveDuelPrize(Entity& destination)
 {
 	Entity* prize = this->Find("prize", EntityType::ITEM);
 	prize->name = "gem";
-	prize->SetNewParent(destination);
+	prize->SetNewParent(&destination);
 	std::cout << "You obtained: " << prize->name << std::endl;
 	prize->Look();
 }

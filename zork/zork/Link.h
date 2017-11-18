@@ -17,7 +17,7 @@ public:
 	const std::string destination_to_origin;
 
 	std::string GetDirectionFrom(const Room* starting_point) const;
-	Room* GetDestinationFrom(const Room* starting_point);
+	Room* GetDestinationFrom(const Room* starting_point) const;
 };
 
 #endif 

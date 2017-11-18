@@ -29,7 +29,7 @@ public:
 
 	void SetNewParent(Entity* new_parent);
 
-	Entity* Find(const std::string& search_name, EntityType search_type);
+	Entity* Find(const std::string& searchName, EntityType searchType) const;
 	EntityType getType() const;
 
 	std::string name = "no name";
